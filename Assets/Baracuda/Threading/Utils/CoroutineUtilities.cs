@@ -5,21 +5,13 @@ using UnityEngine;
 
 namespace Baracuda.Threading.Internal
 {
-    public static class IteratorExtensions
+    public static class CoroutineUtilities
     {
         public static void StartCoroutineExceptionSensitive(
             this MonoBehaviour target,
             IEnumerator enumerator,
             Func<Exception, bool> error,
-            Func<object, bool> completed
-            ) 
-            => StartCoroutineExceptionSensitive(target, enumerator, error, completed, CancellationToken.None);
-        
-        public static void StartCoroutineExceptionSensitive(
-            this MonoBehaviour target,
-            IEnumerator enumerator,
-            Func<Exception, bool> error,
-            Func<object, bool> completed,
+            Func<bool> completed,
             CancellationToken ct
         )
         {
@@ -30,6 +22,18 @@ namespace Baracuda.Threading.Internal
                 callbackComponent = target.gameObject.AddComponent<DisableCallback>();
             }
             target.StartCoroutine(StartCoroutineExceptionSensitive(enumerator, error, completed, callbackComponent, ct));
+        }
+        
+        public static void StartCoroutineExceptionSensitive(
+            this MonoBehaviour target,
+            IEnumerator enumerator,
+            Func<Exception, bool> error,
+            Func<bool> completed,
+            CancellationToken ct,
+            IDisableCallback disableCallback
+        )
+        {
+            target.StartCoroutine(StartCoroutineExceptionSensitive(enumerator, error, completed, disableCallback, ct));
         }
         
 
@@ -46,7 +50,7 @@ namespace Baracuda.Threading.Internal
         private static IEnumerator StartCoroutineExceptionSensitive(
             IEnumerator enumerator,
             Func<Exception, bool> error,
-            Func<object, bool> completed,
+            Func<bool> completed,
             IDisableCallback callback,
             CancellationToken ct
         )
@@ -62,7 +66,7 @@ namespace Baracuda.Threading.Internal
                 {
                     if (enumerator.MoveNext() == false)
                     {
-                        completed(null);
+                        completed();
                         callback.onDisable -= OnDisable;
                         break;
                     }
