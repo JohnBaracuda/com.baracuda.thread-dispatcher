@@ -15,12 +15,10 @@ namespace Baracuda.Threading
         /// that can be awaited.
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
-        /// Use <see cref="InvokeAsync(System.Threading.Tasks.Task, ExecutionCycle)"/>
-        /// for more control over the cycle in which the dispatched <see cref="Task"/> is executed.
         /// </summary>
         /// <param name="task"><see cref="Task"/> dispatched task.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Task task)
+        public static Task InvokeAsync(Func<Task> task)
         {
             var tcs = new TaskCompletionSource();
 
@@ -28,7 +26,7 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    await task;
+                    await task();
                     tcs.SetCompleted();
                 }
                 catch (Exception exception)
@@ -51,10 +49,10 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="task"><see cref="Task"/> dispatched task.</param>
+        /// <param name="func"><see cref="Task"/> dispatched task.</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Task task, ExecutionCycle cycle)
+        public static Task InvokeAsync(Func<Task> func, ExecutionCycle cycle)
         {
             var tcs = new TaskCompletionSource();
 
@@ -62,7 +60,7 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    await task;
+                    await func();
                     tcs.SetCompleted();
                 }
                 catch (Exception exception)
@@ -84,14 +82,12 @@ namespace Baracuda.Threading
         /// that can be awaited.
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
-        /// Use <see cref="InvokeAsync(System.Threading.Tasks.Task, ExecutionCycle)"/>
-        /// for more control over the cycle in which the dispatched <see cref="Task"/> is executed.
         /// </summary>
-        /// <param name="task"><see cref="Task"/> dispatched task.</param>
+        /// <param name="func"><see cref="Task"/> dispatched task.</param>
         /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
         /// <param name="throwOnCancellation"> </param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Task task, CancellationToken ct, bool throwOnCancellation = true)
+        public static Task InvokeAsync(Func<Task> func, CancellationToken ct, bool throwOnCancellation = true)
         {
             var tcs = new TaskCompletionSource();
 
@@ -112,7 +108,7 @@ namespace Baracuda.Threading
                         }
                     }
 
-                    await task;
+                    await func();
                     tcs.SetCompleted();
                 }
                 catch (Exception exception)
@@ -135,12 +131,12 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="task"><see cref="Task"/> dispatched task.</param>
+        /// <param name="func"><see cref="Task"/> dispatched task.</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
         /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
         /// <param name="throwOnCancellation"> </param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Task task, ExecutionCycle cycle, CancellationToken ct,
+        public static Task InvokeAsync(Func<Task> func, ExecutionCycle cycle, CancellationToken ct,
             bool throwOnCancellation = true)
         {
             var tcs = new TaskCompletionSource();
@@ -162,7 +158,7 @@ namespace Baracuda.Threading
                         }
                     }
 
-                    await task;
+                    await func();
                     tcs.SetCompleted();
                 }
                 catch (Exception exception)
@@ -181,147 +177,6 @@ namespace Baracuda.Threading
         #endregion
 
         #region --- [DISPATCH: TASK<TRESULT>] ---
-
-        /// <summary>
-        /// Dispatch the execution of a <see cref="Task{TResult}"/> to the main thread; and return a <see cref="Task{TResult}"/>,
-        /// that can be awaited on the calling thread after and will yield the result of the passed <see cref="Task{TResult}"/>.
-        /// Tasks are by default executed during the next available<br/>
-        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
-        /// Use <see cref="InvokeAsync(System.Threading.Tasks.Task, ExecutionCycle)"/>
-        /// for more control over the cycle in which the dispatched <see cref="Task{TResult}"/> is executed.
-        /// </summary>
-        /// <param name="task"><see cref="Task{TResult}"/> dispatched task.</param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-TResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Task<TResult> task)
-        {
-            var tcs = new TaskCompletionSource<TResult>();
-
-            async void Action()
-            {
-                try
-                {
-                    tcs.SetResult(await task);
-                }
-                catch (Exception exception)
-                {
-                    if (!tcs.TrySetException(exception))
-                    {
-                        Debug.LogException(exception);
-                    }
-                }
-            }
-
-            Invoke(Action);
-            return tcs.Task;
-        }
-
-
-        /// <summary>
-        /// Dispatch the execution of a <see cref="Task{TResult}"/> to the main thread; and return a <see cref="Task{TResult}"/>,
-        /// that can be awaited on the calling thread after and will yield the result of the passed <see cref="Task{TResult}"/>.
-        /// Tasks are by default executed during the next available<br/>
-        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
-        /// </summary>
-        /// <param name="task"><see cref="Task{TResult}"/> dispatched task.</param>
-        /// <param name="cycle">The execution cycle during which the passed <see cref="Task{TResult}"/> is executed.</param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-TResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Task<TResult> task, ExecutionCycle cycle)
-        {
-            var tcs = new TaskCompletionSource<TResult>();
-
-            async void Action()
-            {
-                try
-                {
-                    tcs.SetResult(await task);
-                }
-                catch (Exception exception)
-                {
-                    if (!tcs.TrySetException(exception))
-                    {
-                        Debug.LogException(exception);
-                    }
-                }
-            }
-
-            Invoke(Action, cycle);
-            return tcs.Task;
-        }
-
-
-        /// <summary>
-        /// Dispatch the execution of a <see cref="Task{TResult}"/> to the main thread; and return a <see cref="Task{TResult}"/>,
-        /// that can be awaited on the calling thread after and will yield the result of the passed <see cref="Task{TResult}"/>.
-        /// Tasks are by default executed during the next available<br/>
-        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
-        /// Use <see cref="InvokeAsync(System.Threading.Tasks.Task, ExecutionCycle)"/>
-        /// for more control over the cycle in which the dispatched <see cref="Task{TResult}"/> is executed.
-        /// </summary>
-        /// <param name="task"><see cref="Task{TResult}"/> dispatched task.</param>
-        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-TResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Task<TResult> task, CancellationToken ct)
-        {
-            var tcs = new TaskCompletionSource<TResult>();
-
-            async void Action()
-            {
-                try
-                {
-                    ct.ThrowIfCancellationRequested();
-                    tcs.SetResult(await task);
-                }
-                catch (Exception exception)
-                {
-                    if (!tcs.TrySetException(exception))
-                    {
-                        Debug.LogException(exception);
-                    }
-                }
-            }
-
-            Invoke(Action);
-            return tcs.Task;
-        }
-
-
-        /// <summary>
-        /// Dispatch the execution of a <see cref="Task{TResult}"/> to the main thread; and return a <see cref="Task{TResult}"/>,
-        /// that can be awaited on the calling thread after and will yield the result of the passed <see cref="Task{TResult}"/>.
-        /// Tasks are by default executed during the next available<br/>
-        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
-        /// </summary>
-        /// <param name="task"><see cref="Task{TResult}"/> dispatched task.</param>
-        /// <param name="cycle">The execution cycle during which the passed <see cref="Task{TResult}"/> is executed.</param>
-        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-TResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Task<TResult> task, ExecutionCycle cycle, CancellationToken ct)
-        {
-            var tcs = new TaskCompletionSource<TResult>();
-
-            async void Action()
-            {
-                try
-                {
-                    ct.ThrowIfCancellationRequested();
-                    tcs.SetResult(await task);
-                }
-                catch (Exception exception)
-                {
-                    if (!tcs.TrySetException(exception))
-                    {
-                        Debug.LogException(exception);
-                    }
-                }
-            }
-
-            Invoke(Action, cycle);
-            return tcs.Task;
-        }
-
-        #endregion
-
-        #region --- [DISPATCH: FUNC<TASK<TRESULT>>] ---
 
         /// <summary>
         /// Dispatch the execution of a <see cref="Func{TResult}"/> to the main thread, which yields a <see cref="Task{TResult}"/>

@@ -36,6 +36,10 @@ namespace Baracuda.Threading.Demo
             // Coroutine with exception
             Task.Run(() => DispatchCoroutineExampleTaskWithException(throwException));
             
+            
+            //TaskExample();
+
+            TaskTExample();
         }
         
         
@@ -170,7 +174,7 @@ namespace Baracuda.Threading.Demo
             try
             {
                 // dispatch the execution of the ExampleCoroutine to the main thread.
-                await Dispatcher.InvokeCoroutineAsync(ExampleCoroutineWithException(currentThreadId), throwExceptions);
+                await Dispatcher.InvokeAsyncAwaitCompletion(ExampleCoroutineWithException(currentThreadId), throwExceptions);
                 
                 Debug.Log("Coroutine Completed");
             }
@@ -196,6 +200,60 @@ namespace Baracuda.Threading.Demo
                 }
             }
         }
+        
+        #endregion
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        #region --- [DISPATCH TASK EXAMPLE] ---
+
+        private void TaskExample()
+        {
+            Task.Run(WorkerThreadTask);
+        }
+
+        private async Task WorkerThreadTask()
+        {
+            await Task.Delay(1000);
+
+            await Dispatcher.InvokeAsync(MainThreadTask);
+            Debug.Log("Com");
+        }
+
+        private async Task MainThreadTask()
+        {
+            Debug.Log(Dispatcher.IsMainThread());
+            await Task.Delay(1000);
+            Debug.Log(Dispatcher.IsMainThread());
+        }
+        
+        #endregion
+        
+        //--------------------------------------------------------------------------------------------------------------
+
+
+        #region --- [DISPATCH TASK<TRESULT> EXAMPLE] ---
+
+        private void TaskTExample()
+        {
+            Task.Run(WorkerThreadTaskT);
+        }
+
+        private async Task WorkerThreadTaskT()
+        {
+            await Task.Delay(1000);
+
+            var result = await Dispatcher.InvokeAsync(MainThreadTaskT);
+            
+            await Dispatcher.InvokeAsync(() => Debug.Log(result.name));
+        }
+
+        private async Task<Dispatcher> MainThreadTaskT()
+        {
+            await Task.Delay(1000);
+            return FindObjectOfType<Dispatcher>();
+        }
+        
         
         #endregion
         
