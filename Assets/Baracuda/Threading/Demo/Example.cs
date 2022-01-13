@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
+using Baracuda.Threading.Internal;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Baracuda.Threading.Demo
@@ -14,248 +16,207 @@ namespace Baracuda.Threading.Demo
     /// </summary>
     public class Example : MonoBehaviour
     {
-        [SerializeField] private Text dispatchActionText;
-        [SerializeField] private Text dispatchFuncText;
-        [SerializeField] private Text dispatchCoroutineText;
-        [SerializeField] private bool throwException;
-        [SerializeField] private Text dispatchCoroutineExceptionText;
-        
-        private void Awake()
-        {
-            // Initialize tasks that will run on a separate thread.
-            
-            // Action example
-            Task.Run(() => DispatchExampleTask(WorkCompleted));
-            
-            // Func<TResult> example
-            Task.Run(DispatchFuncExampleTask);
-            
-            // Coroutine example
-            Task.Run(DispatchCoroutineExampleTask);
-            
-            // Coroutine with exception
-            Task.Run(() => DispatchCoroutineExampleTaskWithException(throwException));
-            
-            
-            //TaskExample();
+        [SerializeField] private Text actionText;
+        [SerializeField] private Text funcText;
+        [SerializeField] private Text coroutineText;
+        [SerializeField] private bool throwExceptionInCoroutine = false;
+        [SerializeField] private Text coroutineExceptionText;
+        [SerializeField] private Text taskText;
 
-            TaskTExample();
+        private void Start()
+        {
+            StartActionExample();
+            StartFuncExample();
+            StartCoroutineExample();
+            StartCoroutineExampleWithException();
+            StartTaskExample();
         }
-        
-        
 
         //--------------------------------------------------------------------------------------------------------------
-        
-        #region --- [DISPATCH ACTION EXAMPLE] ---
 
-        /// <summary>
-        /// <see cref="Action"/> example: <br/>
-        /// <a href="https://johnbaracuda.com/dispatcher.html#actions">View Documentation</a>
-        /// </summary>
-        private Task DispatchExampleTask(Action<string> callback)
+        #region --- [EXAMPLE: ACTION] ---
+
+        private void StartActionExample()
         {
-            // cache the current thread id.
-            var currentThreadId = Thread.CurrentThread.ManagedThreadId;
-            
-            
-            // simulate asynchronous work.
-            for (var i = 0; i < 100; i++)
-            {
-                var iteration = i.ToString("000");
-                
-                // Dispatch the anonymous delegate, showcasing the current progress to the main thread.
-                Dispatcher.Invoke(() =>
-                {
-                    if(!Application.isPlaying) return;
-                    dispatchActionText.text = $"Doing Work On Thread: {currentThreadId.ToString()} | {iteration}%";
-                });
-                Thread.Sleep(100);
-            }
-            
-            // Dispatch the anonymous delegate to the main thread.
-            Dispatcher.Invoke(() =>
-            {
-                if(!Application.isPlaying) return;
-                dispatchActionText.text = $"Completed Work On Thread: {currentThreadId.ToString()}";
-            });
-
-            // Dispatch the passed callback action to the main thread.
-            callback.Dispatch(currentThreadId.ToString());
-            
-            return Task.CompletedTask;
+            Task.Run(ActionExampleWorker);
         }
 
-        private void WorkCompleted(string currentThreadId)
+        private async Task ActionExampleWorker()
         {
-            if(!Application.isPlaying) return;
-            dispatchActionText.text = $"Completed Work On Thread: {currentThreadId}";
-        }
-        
-        
-        #endregion
-        
-        //--------------------------------------------------------------------------------------------------------------
-        
-        #region --- [DISPATCH FUNC EXAMPLE] ---
-
-        /// <summary>
-        /// <see cref="Func{TResult}"/> example: <br/>
-        /// <a href="https://johnbaracuda.com/dispatcher.html#func">View Documentation</a>
-        /// </summary>
-        private async Task DispatchFuncExampleTask()
-        {
-            // simulate asynchronous work.
+            // caching the current thread id
+            var threadID = Thread.CurrentThread.ManagedThreadId;
+            
+            // simulating async work
             await Task.Delay(1000);
             
-            // cache the current thread id.
-            var currentThreadId = Thread.CurrentThread.ManagedThreadId;
-
-            // get the position of this GameObject.
-            var position = await Dispatcher.InvokeAsync(() => gameObject.transform.position);
             
             await Dispatcher.InvokeAsync(() =>
             {
-                if(!Application.isPlaying) return;
-                dispatchFuncText.text = 
-                    $"The position of this GameObject is {position.ToString()}! " +
-                    $"Dispatched from Thread: {currentThreadId.ToString()}";
+                actionText.text = $"Dispatched from Thread: {threadID:00}";
             });
         }
-
-        #endregion
         
+        #endregion
+
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [COROUTINE] ---
+        #region --- [EXAMPLE: FUNC<TRESULT>] ---
 
-        /// <summary>
-        /// <see cref="Coroutine"/> example: <br/>
-        /// <a href="https://johnbaracuda.com/dispatcher.html#coroutines">View Documentation</a>
-        /// </summary>
-        private async Task DispatchCoroutineExampleTask()
+        private void StartFuncExample()
         {
+            Task.Run(FuncExampleWorker);
+        }
+
+        private async Task FuncExampleWorker()
+        {
+            // caching the current thread id
+            var threadID = Thread.CurrentThread.ManagedThreadId;
+            
+            // simulating async work
             await Task.Delay(1000);
-                
-            // cache the current thread id.
-            var currentThreadId = Thread.CurrentThread.ManagedThreadId.ToString();
+            
+            var dispatcherName = await Dispatcher.InvokeAsync(() => FindObjectOfType<Example>().gameObject.name);
+            
+            // simulating async work
+            await Task.Delay(1000);
 
-            // dispatch the execution of the ExampleCoroutine to the main thread.
-            Dispatcher.Invoke(ExampleCoroutine(currentThreadId),ExecutionCycle.Update, this);
-        }
-
-        private IEnumerator ExampleCoroutine(string threadId)
-        {
-            var iteration = 0;
-            while (Application.isPlaying)
+            await Dispatcher.InvokeAsync(() =>
             {
-                yield return new WaitForSeconds(1f);
-                dispatchCoroutineText.text = $"Dispatched from Thread: {threadId} " +
-                                             $"| Iteration: {iteration++.ToString()}";
-            }
+                funcText.text = $"Example GameObject is '{dispatcherName}' " +
+                                $"Dispatched from thread: {threadID:00}";
+            });
         }
-
-        #endregion
         
+        #endregion
+
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [DISPATCH COROUTINE WITH EXCEPTION] ---
+        #region --- [EXAMPLE: COROUTINE] ---
 
-        /// <summary>
-        /// <see cref="Coroutine"/> example: <br/>
-        /// <a href="https://johnbaracuda.com/dispatcher.html#coroutines">View Documentation</a>
-        /// </summary>
-        private async Task DispatchCoroutineExampleTaskWithException(bool throwExceptions)
+        private void StartCoroutineExample()
         {
-            await Task.Delay(1000);
-                
-            // cache the current thread id.
-            var currentThreadId = Thread.CurrentThread.ManagedThreadId.ToString();
-
-            try
-            {
-                // dispatch the execution of the ExampleCoroutine to the main thread.
-                await Dispatcher.InvokeAsyncAwaitCompletion(ExampleCoroutineWithException(currentThreadId), throwExceptions);
-                
-                Debug.Log("Coroutine Completed");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-                throw;
-            }
+            Task.Run(CoroutineExampleWorker);
         }
 
-        private IEnumerator ExampleCoroutineWithException(string threadId)
+        private async Task CoroutineExampleWorker()
         {
-            var iteration = 0;
-            while (Application.isPlaying)
-            {
-                yield return new WaitForSeconds(1f);
-                dispatchCoroutineExceptionText.text = $"Dispatched from Thread: {threadId} " +
-                                             $"| Iteration: {iteration++.ToString()}";
+            // caching the current thread id
+            var threadID = Thread.CurrentThread.ManagedThreadId;
+            
+            // simulating async work
+            await Task.Delay(1000);
 
-                if (iteration >= 3)
+            Dispatcher.Invoke(ExampleCoroutine(threadID));
+        }
+
+        private IEnumerator ExampleCoroutine(int threadId)
+        {
+            var value = 0;
+            while (true)
+            {
+                yield return new WaitForSeconds(.5f);
+                coroutineText.text = $"Working: {++value:000}% Completed | Dispatched from thread: {threadId:00}";
+                
+                if (value >= 100)
                 {
-                    throw new InvalidOperationException();
+                    break;
                 }
             }
         }
         
         #endregion
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        #region --- [DISPATCH TASK EXAMPLE] ---
-
-        private void TaskExample()
-        {
-            Task.Run(WorkerThreadTask);
-        }
-
-        private async Task WorkerThreadTask()
-        {
-            await Task.Delay(1000);
-
-            await Dispatcher.InvokeAsync(MainThreadTask);
-            Debug.Log("Com");
-        }
-
-        private async Task MainThreadTask()
-        {
-            Debug.Log(Dispatcher.IsMainThread());
-            await Task.Delay(1000);
-            Debug.Log(Dispatcher.IsMainThread());
-        }
-        
-        #endregion
         
         //--------------------------------------------------------------------------------------------------------------
 
+        #region --- [EXAMPLE: COROUTINE] ---
 
-        #region --- [DISPATCH TASK<TRESULT> EXAMPLE] ---
-
-        private void TaskTExample()
+        private void StartCoroutineExampleWithException()
         {
-            Task.Run(WorkerThreadTaskT);
+            Task.Run(CoroutineExampleWorkerWithException);
         }
 
-        private async Task WorkerThreadTaskT()
+        private async Task CoroutineExampleWorkerWithException()
         {
-            await Task.Delay(1000);
-
-            var result = await Dispatcher.InvokeAsync(MainThreadTaskT);
+            // caching the current thread id
+            var threadID = Thread.CurrentThread.ManagedThreadId;
             
-            await Dispatcher.InvokeAsync(() => Debug.Log(result.name));
+            // simulating async work
+            await Task.Delay(1000);
+
+            try
+            {
+                await Dispatcher.InvokeAsyncAwaitCompletion(ExampleCoroutineWithException(threadID));
+            }
+            catch (BehaviourDisabledException behaviourDisabledException)
+            {
+                // This exception is thrown when the coroutines target behaviour is disabled which will also happen
+                // when exiting playmode while the coroutine is still running.
+                Debug.Log(behaviourDisabledException.Message);
+                return;
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError(exception);
+                await Dispatcher.InvokeAsync(() => coroutineExceptionText.text = $"{exception.GetType().Name} Occured!");
+                return;
+            }
+
+            await Dispatcher.InvokeAsync(() => coroutineExceptionText.text = "Work Completed!");
         }
 
-        private async Task<Dispatcher> MainThreadTaskT()
+        private IEnumerator ExampleCoroutineWithException(int threadId)
         {
-            await Task.Delay(1000);
-            return FindObjectOfType<Dispatcher>();
+            var value = 0;
+            while (true)
+            {
+                yield return new WaitForSeconds(.1f);
+                coroutineExceptionText.text = $"Working: {++value:000}% Completed | Dispatched from thread: {threadId:00}";
+
+                if (throwExceptionInCoroutine && value >= 5)
+                {
+                    throw new InvalidOperationException("This Exception is thrown inside a Coroutine!");
+                }
+                
+                if (value >= 100)
+                {
+                    break;
+                }
+            }
         }
-        
         
         #endregion
         
+        //--------------------------------------------------------------------------------------------------------------
+
+        #region --- [EXAMPLE: TASK] ---
+
+        private void StartTaskExample()
+        {
+            Task.Run(TaskExampleWorker);
+        }
+
+        private async Task TaskExampleWorker()
+        {
+            // caching the current thread id
+            var threadID = Thread.CurrentThread.ManagedThreadId;
+            
+            // simulating async work
+            await Task.Delay(1000);
+
+            var result = await Dispatcher.InvokeAsync(() => TaskExampleMainThread(threadID));
+
+            await Dispatcher.InvokeAsync(() =>
+            {
+                taskText.text = $"{result:00} GameObject were found at the scene root! | Dispatched from thread: {threadID:00}";
+            });
+        }
+
+        private async Task<int> TaskExampleMainThread(int threadId)
+        {
+            await Task.Delay(threadId);
+            return SceneManager.GetActiveScene().GetRootGameObjects().Length;
+        }
+        
+        #endregion
     }
 }

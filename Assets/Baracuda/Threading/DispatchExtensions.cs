@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace Baracuda.Threading
 {
+    /// <summary>
+    /// Class containing multiple extension methods for dispatching the execution of a<br/>
+    /// <see cref="Delegate"/>, <see cref="IEnumerator"/> or <see cref="Task"/>
+    /// from a background thread to the main thread.
+    /// </summary>
     public static class DispatchExtensions
     {
         
@@ -164,9 +169,11 @@ namespace Baracuda.Threading
             Dispatcher.Invoke(() => action(arg1, arg2, arg3, arg4), cycle);
         }
         
-        
-        
-        /// <summary>
+        #endregion
+
+        #region --- [ACTION ASYNC] ---
+
+                /// <summary>
         /// Dispatch an <see cref="Action"/> that will be executed on the main thread and return a <see cref="Task"/>, 
         /// that when awaited on the calling thread, returns after the <see cref="Action"/>
         /// was executed on the main thread.
@@ -226,12 +233,12 @@ namespace Baracuda.Threading
         {
             return Dispatcher.InvokeAsync(action, cycle, ct, throwOnCancellation);
         }
-
+        
         #endregion
 
         //--------------------------------------------------------------------------------------------------------------
         
-        #region --- [FUNC<TRESULT>] ---
+        #region --- [FUNC<TRESULT> ASYNC] ---
 
         /// <summary>
         /// Dispatch a <see cref="Func{T}"/> that wil executed on the main thread; and return a <see cref="Task{TResult}"/>,
@@ -344,15 +351,259 @@ namespace Baracuda.Threading
         
         #endregion
         
-        #region --- [COROUTINE: AWAIT START] ---
+        #region --- [COROUTINE ASYNC AWAIT START] ---
 
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, MonoBehaviour target)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator, target);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, CancellationToken ct)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator, ct);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, MonoBehaviour target, CancellationToken ct)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator, target, ct);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"> the execution cycle during which the passed <see cref="Coroutine"/> is started.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"> the execution cycle during which the passed <see cref="Coroutine"/> is started.</param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle, target);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"> the execution cycle during which the passed <see cref="Coroutine"/> is started.</param>
+        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle, ct);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task{Coroutine}"/>, that when awaited on the calling thread, returns
+        /// the <see cref="Coroutine"/> after it was started on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"> the execution cycle during which the passed <see cref="Coroutine"/> is started.</param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
+        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct)
+        {
+            return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle, target, ct);
+        }
+        
         #endregion
 
-        #region --- [COROUTINE: AWAIT COMPETION] ---
+        #region --- [COROUTINE ASYNC AWAIT COMPETION] ---
 
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that is executed as a <see cref="Coroutine"/>
+        /// on the main thread and return a <see cref="Task"/>, that can be awaited and returns
+        /// after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, throwExceptions);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task"/>, that when awaited on the calling thread, returns
+        /// the after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="ct"></param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, CancellationToken ct, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, ct, throwExceptions);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task"/>, that when awaited on the calling thread, returns
+        /// the after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, MonoBehaviour target, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, target, throwExceptions);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task"/>, that when awaited on the calling thread, returns
+        /// the after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <param name="ct"></param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, MonoBehaviour target, CancellationToken ct, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, target, ct, throwExceptions);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task"/>, that when awaited on the calling thread, returns
+        /// the after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"></param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, throwExceptions);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task"/>, that when awaited on the calling thread, returns
+        /// the after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"></param>
+        /// <param name="ct"></param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, ct, throwExceptions);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task"/>, that when awaited on the calling thread, returns
+        /// the after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"></param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, target, throwExceptions);
+        }
+        
+        /// <summary>
+        /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
+        /// on the main thread; and return a <see cref="Task"/>, that when awaited on the calling thread, returns
+        /// the after the <see cref="Coroutine"/> has completed on the main thread.
+        /// </summary>
+        /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
+        /// <param name="cycle"></param>
+        /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
+        /// <param name="ct"></param>
+        /// <param name="throwExceptions"></param>
+        /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
+        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct, bool throwExceptions = true)
+        {
+            return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, target, ct, throwExceptions);
+        }
+       
         #endregion
         
-        #region --- [COROUTINE: DEPRECATED] ---
+        #region --- [COROUTINE: OBSOLETE] ---
 
         /// <summary>
         /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/>
@@ -487,6 +738,64 @@ namespace Baracuda.Threading
         //--------------------------------------------------------------------------------------------------------------
 
         #region --- [TASK] ---
+
+        /// <summary>
+        /// Dispatch the execution of a <see cref="Task"/> to the main thread.
+        /// Tasks are by default executed during the next available<br/>
+        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
+        /// </summary>
+        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-ext">Documentation</a></footer>
+        public static void Dispatch(this Func<Task> func)
+        {
+            Dispatcher.Invoke(func);
+        }
+        
+        /// <summary>
+        /// Dispatch the execution of a <see cref="Task"/> to the main thread.
+        /// Tasks are by default executed during the next available<br/>
+        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
+        /// </summary>
+        /// <param name="func"><see cref="Task"/> function that returns the dispatched task.</param>
+        /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-ext">Documentation</a></footer>
+        public static void Dispatch(this Func<Task> func, ExecutionCycle cycle)
+        {
+            Dispatcher.Invoke(func, cycle);
+        }
+        
+        /// <summary>
+        /// Dispatch the execution of a <see cref="Task"/> to the main thread.
+        /// Tasks are by default executed during the next available<br/>
+        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
+        /// </summary>
+        /// <param name="func"><see cref="Task"/> function that returns the dispatched task.</param>
+        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
+        /// <param name="throwOnCancellation"> </param>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-ext">Documentation</a></footer>
+        public static void Dispatch(this Func<Task> func, CancellationToken ct, bool throwOnCancellation = true)
+        {
+            Dispatcher.Invoke(func, ct, throwOnCancellation);
+        }
+        
+        /// <summary>
+        /// Dispatch the execution of a <see cref="Task"/> to the main thread.
+        /// Tasks are by default executed during the next available<br/>
+        /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
+        /// </summary>
+        /// <param name="func"><see cref="Task"/> function that returns the dispatched task.</param>
+        /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
+        /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
+        /// <param name="throwOnCancellation"> </param>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task-ext">Documentation</a></footer>
+        public static void Dispatch(this Func<Task> func, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true)
+        {
+            Dispatcher.Invoke(func, cycle, ct, throwOnCancellation);
+        }
+        
+        #endregion
+        
+        #region --- [TASK ASYNC] ---
         
         /// <summary>
         /// Dispatch the execution of a <see cref="Task"/> to the main thread; and return a <see cref="Task"/>,
@@ -548,9 +857,7 @@ namespace Baracuda.Threading
         
         #endregion
         
-        //--------------------------------------------------------------------------------------------------------------
-
-        #region --- [TASK<TRESULT>] ---
+        #region --- [TASK<TRESULT> ASYNC] ---
 
         /// <summary>
         /// Dispatch the execution of a <see cref="Func{TResult}"/> to the main thread, which yields a <see cref="Task{TResult}"/>
@@ -560,7 +867,7 @@ namespace Baracuda.Threading
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
         /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#funcTaskTResult">Documentation</a></footer>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult-ext">Documentation</a></footer>
         public static Task<TResult> DispatchAsync<TResult>(this Func<Task<TResult>> func)
         {
             return Dispatcher.InvokeAsync(func);
@@ -576,7 +883,7 @@ namespace Baracuda.Threading
         /// </summary>
         /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task{TResult}"/> is executed.</param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#funcTaskTResult">Documentation</a></footer>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult-ext">Documentation</a></footer>
         public static Task<TResult> DispatchAsync<TResult>(this Func<Task<TResult>> func, ExecutionCycle cycle)
         {
             return Dispatcher.InvokeAsync(func, cycle);
@@ -592,7 +899,7 @@ namespace Baracuda.Threading
         /// </summary>
         /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
         /// <param name="ct"></param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#funcTaskTResult">Documentation</a></footer>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult-ext">Documentation</a></footer>
         public static Task<TResult> DispatchAsync<TResult>(this Func<Task<TResult>> func, CancellationToken ct)
         {
             return Dispatcher.InvokeAsync(func, ct);
@@ -609,7 +916,7 @@ namespace Baracuda.Threading
         /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task{TResult}"/> is executed.</param>
         /// <param name="ct"></param>
-        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#funcTaskTResult">Documentation</a></footer>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult-ext">Documentation</a></footer>
         public static Task<TResult> DispatchAsync<TResult>(this Func<Task<TResult>> func, ExecutionCycle cycle, CancellationToken ct)
         {
             return Dispatcher.InvokeAsync(func, cycle, ct);

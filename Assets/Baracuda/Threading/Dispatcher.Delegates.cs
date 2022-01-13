@@ -8,6 +8,7 @@ namespace Baracuda.Threading
 {
     public partial class Dispatcher
     {
+        
         #region --- [DISPATCH: ACTION] ---
 
         /// <summary>
@@ -118,6 +119,12 @@ namespace Baracuda.Threading
             }
         }
 
+
+        
+
+        #endregion
+
+        #region --- [DISPATCH: ACTION ASYNC] ---
 
         /// <summary>
         /// Dispatch an <see cref="Action"/> that will be executed on the main thread and return a <see cref="Task"/>, 
@@ -301,10 +308,12 @@ namespace Baracuda.Threading
             }, cycle);
             return tcs.Task;
         }
-
+        
         #endregion
 
-        #region --- [DISPATCH: FUNC] ---
+        //--------------------------------------------------------------------------------------------------------------
+        
+        #region --- [DISPATCH: FUNC<TRESULT> ASYNC] ---
 
         /// <summary>
         /// Dispatch a <see cref="Func{T}"/> that wil executed on the main thread; and return a <see cref="Task{TResult}"/>,
@@ -437,5 +446,6 @@ namespace Baracuda.Threading
         }
 
         #endregion
+        
     }
 }
