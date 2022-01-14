@@ -54,7 +54,7 @@ namespace Baracuda.Threading
             
             if (_throw && gameObject.scene.isLoaded)
             {
-                ValidateDispatcher();
+                Validate();
                 throw new InvalidOperationException(
                     $"{nameof(Dispatcher)} was destroyed during playmode. Please ensure that the {nameof(Dispatcher)} is not destroyed during playmode!");
             }

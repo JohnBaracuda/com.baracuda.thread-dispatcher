@@ -149,8 +149,7 @@ namespace Baracuda.Threading.Internal
                 callbackComponent = target.gameObject.AddComponent<DisableCallback>();
             }
 
-            target.StartCoroutine(StartCoroutineExceptionSensitiveInternal(enumerator, error, completed, callbackComponent,
-                ct));
+            target.StartCoroutine(StartCoroutineExceptionSensitiveInternal(enumerator, error, completed, callbackComponent, ct));
         }
 
         /// <summary>

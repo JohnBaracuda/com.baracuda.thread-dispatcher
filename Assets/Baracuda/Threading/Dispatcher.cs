@@ -44,7 +44,7 @@ namespace Baracuda.Threading
         /// </summary>
         /// <returns></returns>
         ///<footer><a href="https://johnbaracuda.com/dispatcher.html#miscellaneous">Documentation</a></footer>
-        public static Dispatcher ValidateDispatcher() => Current;
+        public static Dispatcher Validate() => Current;
 
         
 #if DISPATCHER_DEBUG
@@ -52,6 +52,7 @@ namespace Baracuda.Threading
         /// Get the <see cref="ExecutionCycle"/> definition of the currently executed update cycle.
         /// This property is only available if DISPATCHER_DEBUG is defined.
         /// </summary>
+        ///<footer><a href="https://johnbaracuda.com/dispatcher.html#cycle">Documentation</a></footer>
         public static ExecutionCycle CurrentCycle { get; private set; } = ExecutionCycle.Default;
 #endif
         

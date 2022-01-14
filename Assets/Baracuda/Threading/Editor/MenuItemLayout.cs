@@ -7,7 +7,7 @@ namespace Baracuda.Threading.Editor
         [UnityEditor.MenuItem("Tools/Dispatcher/Validate Scene Component", priority = 2361)]
         private static void ValidateSceneComponent()
         {
-            UnityEditor.Selection.activeGameObject = Dispatcher.ValidateDispatcher().gameObject;
+            UnityEditor.Selection.activeGameObject = Dispatcher.Current.gameObject;
         }
         
         [UnityEditor.MenuItem("Tools/Dispatcher/Script Execution Order", priority = 2360)]

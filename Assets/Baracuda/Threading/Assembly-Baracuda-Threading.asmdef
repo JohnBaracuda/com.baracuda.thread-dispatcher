@@ -1,6 +1,5 @@
 {
     "name": "Assembly-Baracuda-Threading",
-    "rootNamespace": "Baracuda",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

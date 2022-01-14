@@ -154,22 +154,18 @@ namespace Baracuda.Threading
         {
             var tcs = new TaskCompletionSource<Coroutine>();
             
-            lock (_defaultExecutionQueue)
+            Invoke(() =>
             {
-                _defaultExecutionQueue.Enqueue(() =>
-                {
 #if UNITY_EDITOR && DISPATCHER_DEBUG
-                    if (!Application.isPlaying)
-                    {
-                        Debug.LogWarning($"{nameof(Coroutine)} can only be dispatched in playmode!");
-                        return;
-                    }
+                if (!Application.isPlaying)
+                {
+                    Debug.LogWarning($"{nameof(Coroutine)} can only be dispatched in playmode!");
+                    return;
+                }
 #endif
-                    var result = target.StartCoroutine(enumerator);
-                    tcs.TrySetResult(result);
-                });
-            }
-            _queuedDefault = true;
+                var result = target.StartCoroutine(enumerator);
+                tcs.TrySetResult(result);
+            });
             return tcs.Task;
         }
         
@@ -189,27 +185,23 @@ namespace Baracuda.Threading
             ct.ThrowIfCancellationRequested();
             var tcs = new TaskCompletionSource<Coroutine>();
             
-            lock (_defaultExecutionQueue)
+            Invoke(() =>
             {
-                _defaultExecutionQueue.Enqueue(() =>
+                try
                 {
-                    try
-                    {
-                        ct.ThrowIfCancellationRequested();
+                    ct.ThrowIfCancellationRequested();
 #if UNITY_EDITOR
-                        if (!Application.isPlaying) 
-                            throw new InvalidOperationException($"{nameof(Coroutine)} can only be dispatched in playmode!");
+                    if (!Application.isPlaying) 
+                        throw new InvalidOperationException($"{nameof(Coroutine)} can only be dispatched in playmode!");
 #endif
-                        var result = Current.StartCoroutine(enumerator);
-                        tcs.TrySetResult(result);
-                    }
-                    catch (Exception exception)
-                    {
-                        tcs.TrySetException(exception);
-                    }
-                });
-            }
-            _queuedDefault = true;
+                    var result = Current.StartCoroutine(enumerator);
+                    tcs.TrySetResult(result);
+                }
+                catch (Exception exception)
+                {
+                    tcs.TrySetException(exception);
+                }
+            });
 
             return tcs.Task;
         }
@@ -231,21 +223,17 @@ namespace Baracuda.Threading
             ct.ThrowIfCancellationRequested();
             var tcs = new TaskCompletionSource<Coroutine>();
 
-            lock (_defaultExecutionQueue)
+            Invoke(() =>
             {
-                _defaultExecutionQueue.Enqueue(() =>
-                {
-                    ct.ThrowIfCancellationRequested();
+                ct.ThrowIfCancellationRequested();
 #if UNITY_EDITOR
-                    if (!Application.isPlaying) 
-                        throw new InvalidOperationException($"{nameof(Coroutine)} can only be dispatched in playmode!");
+                if (!Application.isPlaying) 
+                    throw new InvalidOperationException($"{nameof(Coroutine)} can only be dispatched in playmode!");
 #endif
-                    var result = target.StartCoroutine(enumerator);
-                    tcs.TrySetResult(result);
-                });
-            }
+                var result = target.StartCoroutine(enumerator);
+                tcs.TrySetResult(result);
+            });
             
-            _queuedDefault = true;
             return tcs.Task;
         }
         

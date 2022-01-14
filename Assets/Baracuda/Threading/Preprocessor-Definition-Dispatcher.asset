@@ -42,4 +42,5 @@ MonoBehaviour:
     targetGroup: 1
     isValid: 1
   symbolToRemove: []
-  symbolCache: []
+  symbolCache:
+  - DISPATCHER_DEBUG
