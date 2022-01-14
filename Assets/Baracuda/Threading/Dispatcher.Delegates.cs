@@ -220,21 +220,20 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    if (ct.IsCancellationRequested)
-                    {
-                        if (throwOnCancellation)
-                        {
-                            ct.ThrowIfCancellationRequested();
-                        }
-                        else
-                        {
-                            tcs.SetCompleted();
-                            return;
-                        }
-                    }
-
+                    ct.ThrowIfCancellationRequested();
                     action();
                     tcs.SetCompleted();
+                }
+                catch (OperationCanceledException oce)
+                {
+                    if (throwOnCancellation)
+                    {
+                        tcs.SetException(oce);
+                    }
+                    else
+                    {
+                        tcs.SetCompleted();
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -264,39 +263,27 @@ namespace Baracuda.Threading
         public static Task InvokeAsync(Action action, ExecutionCycle cycle, CancellationToken ct,
             bool throwOnCancellation = true)
         {
-            if (ct.IsCancellationRequested)
-            {
-                if (throwOnCancellation)
-                {
-                    ct.ThrowIfCancellationRequested();
-                }
-                else
-                {
-                    return Task.CompletedTask;
-                }
-            }
-
             var tcs = new TaskCompletionSource();
 
             Invoke(() =>
             {
                 try
                 {
-                    if (ct.IsCancellationRequested)
-                    {
-                        if (throwOnCancellation)
-                        {
-                            ct.ThrowIfCancellationRequested();
-                        }
-                        else
-                        {
-                            tcs.SetCanceled();
-                            return;
-                        }
-                    }
-
+                    ct.ThrowIfCancellationRequested();
+                    
                     action();
                     tcs.SetCompleted();
+                }
+                catch (OperationCanceledException oce)
+                {
+                    if (throwOnCancellation)
+                    {
+                        tcs.SetException(oce);
+                    }
+                    else
+                    {
+                        tcs.SetCompleted();
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -389,7 +376,6 @@ namespace Baracuda.Threading
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#func-cancel">Documentation</a></footer>
         public static Task<TResult> InvokeAsync<TResult>(Func<TResult> func, CancellationToken ct)
         {
-            ct.ThrowIfCancellationRequested();
             var tcs = new TaskCompletionSource<TResult>();
             Invoke(() =>
             {
@@ -424,7 +410,6 @@ namespace Baracuda.Threading
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#func-cancel">Documentation</a></footer>
         public static Task<TResult> InvokeAsync<TResult>(Func<TResult> func, ExecutionCycle cycle, CancellationToken ct)
         {
-            ct.ThrowIfCancellationRequested();
             var tcs = new TaskCompletionSource<TResult>();
             Invoke(() =>
             {

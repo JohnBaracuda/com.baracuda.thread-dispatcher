@@ -361,7 +361,7 @@ namespace Baracuda.Threading
         /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator);
         }
@@ -375,7 +375,7 @@ namespace Baracuda.Threading
         /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, MonoBehaviour target)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator, MonoBehaviour target)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator, target);
         }
@@ -390,7 +390,7 @@ namespace Baracuda.Threading
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, CancellationToken ct)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator, CancellationToken ct)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator, ct);
         }
@@ -406,7 +406,7 @@ namespace Baracuda.Threading
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, MonoBehaviour target, CancellationToken ct)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator, MonoBehaviour target, CancellationToken ct)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator, target, ct);
         }
@@ -420,7 +420,7 @@ namespace Baracuda.Threading
         /// <param name="cycle"> the execution cycle during which the passed <see cref="Coroutine"/> is started.</param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle);
         }
@@ -435,7 +435,7 @@ namespace Baracuda.Threading
         /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle, target);
         }
@@ -451,7 +451,7 @@ namespace Baracuda.Threading
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle, ct);
         }
@@ -468,7 +468,7 @@ namespace Baracuda.Threading
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <exception cref="OperationCanceledException"> exception is thrown if the task is cancelled prematurely.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-ext">Documentation</a></footer>
-        public static Task<Coroutine> InvokeAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct)
+        public static Task<Coroutine> DispatchAsyncAwaitStart(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct)
         {
             return Dispatcher.InvokeAsyncAwaitStart(enumerator, cycle, target, ct);
         }
@@ -486,7 +486,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, throwExceptions);
         }
@@ -501,7 +501,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, CancellationToken ct, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, CancellationToken ct, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, ct, throwExceptions);
         }
@@ -516,7 +516,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, MonoBehaviour target, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, MonoBehaviour target, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, target, throwExceptions);
         }
@@ -532,7 +532,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, MonoBehaviour target, CancellationToken ct, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, MonoBehaviour target, CancellationToken ct, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, target, ct, throwExceptions);
         }
@@ -547,7 +547,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, throwExceptions);
         }
@@ -563,7 +563,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, ct, throwExceptions);
         }
@@ -579,7 +579,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, target, throwExceptions);
         }
@@ -596,7 +596,7 @@ namespace Baracuda.Threading
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
-        public static Task InvokeAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct, bool throwExceptions = true)
+        public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct, bool throwExceptions = true)
         {
             return Dispatcher.InvokeAsyncAwaitCompletion(enumerator, cycle, target, ct, throwExceptions);
         }

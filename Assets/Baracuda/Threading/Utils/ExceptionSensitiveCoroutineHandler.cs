@@ -63,6 +63,7 @@ namespace Baracuda.Threading.Internal
                 object current;
                 try
                 {
+                    ct.ThrowIfCancellationRequested();
                     if (enumerator.MoveNext() == false)
                     {
                         completed();
@@ -70,7 +71,6 @@ namespace Baracuda.Threading.Internal
                         break;
                     }
                     current = enumerator.Current;
-                    ct.ThrowIfCancellationRequested();
                 }
                 catch (Exception exception)
                 {
@@ -99,6 +99,7 @@ namespace Baracuda.Threading.Internal
                 object current;
                 try
                 {
+                    ct.ThrowIfCancellationRequested();
                     if (enumerator.MoveNext() == false)
                     {
                         completed();
@@ -106,7 +107,6 @@ namespace Baracuda.Threading.Internal
                         break;
                     }
                     current = enumerator.Current;
-                    ct.ThrowIfCancellationRequested();
                 }
                 catch (Exception exception)
                 {
@@ -169,6 +169,30 @@ namespace Baracuda.Threading.Internal
             IEnumerator enumerator,
             Func<Exception, bool> error,
             Func<bool> completed,
+            CancellationToken ct,
+            IDisableCallback callback
+        )
+        {
+            target.StartCoroutine(StartCoroutineExceptionSensitiveInternal(enumerator, error, completed, callback, ct));
+        }
+        
+        
+        /// <summary>
+        /// Run an iterator function that might throw an exception. Call the callback with the exception
+        /// if it does or null if it finishes without throwing an exception.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="enumerator">Iterator function to run</param>
+        /// <param name="error">Callback invoked when the iterator has thrown an exception.</param>
+        /// <param name="completed">Callback invoked when the iterator has finished.</param>
+        /// <param name="ct"></param>
+        /// <param name="callback"></param>
+        /// <returns>An enumerator that runs the given enumerator</returns>
+        public static void StartCoroutineExceptionSensitive(
+            this MonoBehaviour target,
+            IEnumerator enumerator,
+            Action<Exception> error,
+            Action completed,
             CancellationToken ct,
             IDisableCallback callback
         )

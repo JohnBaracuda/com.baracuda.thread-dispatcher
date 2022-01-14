@@ -30,7 +30,7 @@ namespace Baracuda.Threading
                 Current.StartCoroutine(enumerator);
             });
         }
-
+        
         /// <summary>
         /// Dispatch an <see cref="IEnumerator"/> that will be started and executed as a <see cref="Coroutine"/> on the main thread.
         /// </summary>
@@ -616,7 +616,7 @@ namespace Baracuda.Threading
         /// <param name="enumerator"><see cref="IEnumerator"/> that is started as a <see cref="Coroutine"/>.</param>
         /// <param name="cycle"></param>
         /// <param name="target"> the target <see cref="MonoBehaviour"/> on which the coroutine will run.</param>
-        /// <param name="ct"></param>
+        /// <param name="ct">Optional cancellation token</param>
         /// <param name="throwExceptions"></param>
         /// <exception cref="InvalidOperationException"> exception is thrown if an <see cref="IEnumerator"/> is dispatched during edit mode.</exception>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines-async">Documentation</a></footer>
@@ -636,6 +636,84 @@ namespace Baracuda.Threading
                 }
             }, cycle);
 
+            return tcs.Task;
+        }
+        
+        #endregion
+        
+        //--------------------------------------------------------------------------------------------------------------
+
+        #region --- [STOP COROUTINE] ---
+
+        /// <summary>
+        /// Stop a coroutine that is running on the Dispatcher.
+        /// </summary>
+        /// <param name="coroutine">The coroutine that should be cancelled</param>
+        public static void CancelCoroutine(Coroutine coroutine)
+        {
+            Invoke(() =>
+            {
+                Current.StopCoroutine(coroutine);
+            });
+        }
+        
+        /// <summary>
+        /// Stop a coroutine that is running on the Dispatcher and return a Task that when awaited will yield after
+        /// the coroutine was successfully stopped on the main thread.
+        /// </summary>
+        /// <param name="coroutine">The coroutine that should be cancelled</param>
+        public static Task CancelCoroutineAsync(Coroutine coroutine)
+        {
+            var tcs = new TaskCompletionSource();
+            Invoke(() =>
+            {
+                try
+                {
+                    Current.StopCoroutine(coroutine);
+                    tcs.SetCompleted();
+                }
+                catch (Exception exception)
+                {
+                    tcs.SetException(exception);
+                }
+            });
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Stop a coroutine that is running on the Dispatcher and return a Task that when awaited will yield after
+        /// the coroutine was successfully stopped on the main thread.
+        /// </summary>
+        /// <param name="coroutine">The coroutine that should be cancelled</param>
+        /// <param name="ct">Optional cancellation token</param>
+        /// <param name="throwOnCancellation">Determines if an exception should be thrown on cancellation</param>
+        public static Task CancelCoroutineAsync(Coroutine coroutine, CancellationToken ct, bool throwOnCancellation = true)
+        {
+            var tcs = new TaskCompletionSource();
+            Invoke(() =>
+            {
+                try
+                {
+                    ct.ThrowIfCancellationRequested();
+                    Current.StopCoroutine(coroutine);
+                    tcs.SetCompleted();
+                }
+                catch (OperationCanceledException oce)
+                {
+                    if (throwOnCancellation)
+                    {
+                        tcs.SetException(oce);
+                    }
+                    else
+                    {
+                        tcs.SetCompleted();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    tcs.SetException(exception);
+                }
+            });
             return tcs.Task;
         }
         

@@ -15,13 +15,13 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="task"><see cref="Task"/> dispatched task.</param>
+        /// <param name="func"><see cref="Task"/> dispatched task.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static void Invoke(Func<Task> task)
+        public static void Invoke(Func<Task> func)
         {
             async void Action()
             {
-                await task();
+                await func();
             }
             Invoke(Action);
         }
@@ -59,19 +59,22 @@ namespace Baracuda.Threading
         {
             async void Action()
             {
-                if (ct.IsCancellationRequested)
+                try
+                {
+                    ct.ThrowIfCancellationRequested();
+                    await func();
+                }
+                catch (OperationCanceledException oce)
                 {
                     if (throwOnCancellation)
                     {
-                        ct.ThrowIfCancellationRequested();
-                    }
-                    else
-                    {
-                        return;
+                        Debug.LogException(oce);
                     }
                 }
-
-                await func();
+                catch (Exception exception)
+                {
+                    Debug.LogException(exception);
+                }
             }
             Invoke(Action);
         }
@@ -92,19 +95,22 @@ namespace Baracuda.Threading
         {
             async void Action()
             {
-                if (ct.IsCancellationRequested)
+                try
+                {
+                    ct.ThrowIfCancellationRequested();
+                    await func();
+                }
+                catch (OperationCanceledException oce)
                 {
                     if (throwOnCancellation)
                     {
-                        ct.ThrowIfCancellationRequested();
-                    }
-                    else
-                    {
-                        return;
+                        Debug.LogException(oce);
                     }
                 }
-
-                await func();
+                catch (Exception exception)
+                {
+                    Debug.LogException(exception);
+                }
             }
             Invoke(Action, cycle);
         }
@@ -200,21 +206,20 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    if (ct.IsCancellationRequested)
-                    {
-                        if (throwOnCancellation)
-                        {
-                            ct.ThrowIfCancellationRequested();
-                        }
-                        else
-                        {
-                            tcs.SetCompleted();
-                            return;
-                        }
-                    }
-
+                    ct.ThrowIfCancellationRequested();
                     await func();
                     tcs.SetCompleted();
+                }
+                catch (OperationCanceledException oce)
+                {
+                    if (throwOnCancellation)
+                    {
+                        tcs.SetException(oce);
+                    }
+                    else
+                    {
+                        tcs.SetCompleted();
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -250,21 +255,21 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    if (ct.IsCancellationRequested)
-                    {
-                        if (throwOnCancellation)
-                        {
-                            ct.ThrowIfCancellationRequested();
-                        }
-                        else
-                        {
-                            tcs.SetCompleted();
-                            return;
-                        }
-                    }
+                    ct.ThrowIfCancellationRequested();
 
                     await func();
                     tcs.SetCompleted();
+                }
+                catch (OperationCanceledException oce)
+                {
+                    if (throwOnCancellation)
+                    {
+                        tcs.SetException(oce);
+                    }
+                    else
+                    {
+                        tcs.SetCompleted();
+                    }
                 }
                 catch (Exception exception)
                 {
