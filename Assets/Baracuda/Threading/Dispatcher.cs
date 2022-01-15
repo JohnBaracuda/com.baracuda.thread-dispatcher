@@ -118,16 +118,6 @@ namespace Baracuda.Threading
         //--------------------------------------------------------------------------------------------------------------
         
         #region --- [INITIALIZE] ---
-        
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void InitSceneComponent()
-        {
-            if (_current == null)
-            {
-                _current = FindObjectOfType<Dispatcher>() ?? new GameObject($"{nameof(Dispatcher)}")
-                    .AddComponent<Dispatcher>();
-            }
-        }
 
         private void OnApplicationQuit()
         {
