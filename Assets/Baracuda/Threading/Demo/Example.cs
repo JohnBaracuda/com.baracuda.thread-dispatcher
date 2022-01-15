@@ -6,6 +6,7 @@ using Baracuda.Threading.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Baracuda.Threading.Demo
 {
@@ -192,28 +193,38 @@ namespace Baracuda.Threading.Demo
 
         private void StartTaskExample()
         {
-            Task.Run(TaskExampleWorker);
+            Task.Run(() => TaskExampleWorker(Dispatcher.RuntimeToken));
         }
 
-        private async Task TaskExampleWorker()
+        private async Task TaskExampleWorker(CancellationToken ct)
         {
-            // caching the current thread id
-            var threadID = Thread.CurrentThread.ManagedThreadId;
-            
-            // simulating async work
-            await Task.Delay(1000);
-
-            var result = await Dispatcher.InvokeAsync(() => TaskExampleMainThread(threadID));
-
-            await Dispatcher.InvokeAsync(() =>
+            try
             {
-                taskText.text = $"{result:00} GameObject were found at the scene root! | Dispatched from thread: {threadID:00}";
-            });
+                // caching the current thread id
+                var threadID = Thread.CurrentThread.ManagedThreadId;
+            
+                // simulating async work
+                await Task.Delay(2000, ct);
+
+                var result = await Dispatcher.InvokeAsync(TaskExampleMainThread, ct);
+
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    taskText.text = $"{result:00} GameObject were found at the scene root! | Dispatched from thread: {threadID:00}";
+                });
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+            }
         }
 
-        private async Task<int> TaskExampleMainThread(int threadId)
+        private async Task<int> TaskExampleMainThread(CancellationToken ct)
         {
-            await Task.Delay(threadId);
+            var random = Random.Range(1000, 2000);
+            
+            await Task.Delay(random, ct);
+            
             return SceneManager.GetActiveScene().GetRootGameObjects().Length;
         }
         

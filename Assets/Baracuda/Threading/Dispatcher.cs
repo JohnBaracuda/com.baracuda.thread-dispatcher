@@ -55,6 +55,14 @@ namespace Baracuda.Threading
         ///<footer><a href="https://johnbaracuda.com/dispatcher.html#cycle">Documentation</a></footer>
         public static ExecutionCycle CurrentCycle { get; private set; } = ExecutionCycle.Default;
 #endif
+
+        /// <summary>
+        /// Return a <see cref="CancellationToken"/> that is valid for the duration of the applications runtime.
+        /// This means until OnApplicationQuit is called in a build
+        /// or until the play state is changed in the editor. 
+        /// </summary>
+        /// <footer><a href="https://johnbaracuda.com/dispatcher.html#runtimeToken">Documentation</a></footer>
+        public static CancellationToken RuntimeToken => _runtimeCts.Token;
         
         #endregion
         
@@ -63,6 +71,8 @@ namespace Baracuda.Threading
         #region --- [FIELDS: PRIVATE] ---
         
         private static readonly Thread _mainThread = Thread.CurrentThread;
+        
+        private static readonly CancellationTokenSource _runtimeCts = new CancellationTokenSource();
         
         private static readonly Queue<Action> _defaultExecutionQueue = new Queue<Action>(10);
         private static volatile bool _queuedDefault = false;
@@ -118,11 +128,30 @@ namespace Baracuda.Threading
                     .AddComponent<Dispatcher>();
             }
         }
-        
+
+        private void OnApplicationQuit()
+        {
+            _runtimeCts.Cancel();
+            _runtimeCts.Dispose();
+        }
+
 
 #if UNITY_EDITOR
         static Dispatcher()
         {
+            UnityEditor.EditorApplication.playModeStateChanged += change =>
+            {
+                
+                switch (change)
+                {
+                    case UnityEditor.PlayModeStateChange.ExitingEditMode:
+                    case UnityEditor.PlayModeStateChange.ExitingPlayMode:
+                        _runtimeCts.Cancel();
+                        _runtimeCts.Dispose();
+                        break;
+                }
+            };
+            
 #if !DISPATCHER_DISABLE_TICKUPDATE || ENABLE_TICKFALLBACK
             InitializeTickUpdateLoop();
 #endif
@@ -131,7 +160,7 @@ namespace Baracuda.Threading
             UnityEditor.EditorApplication.update += EditorUpdate;
 #endif
         }
-#endif
+#endif // UNITY_EDITOR
 
 #if UNITY_EDITOR && !DISPATCHER_DISABLE_EDITORUPDATE
         private static void EditorUpdate()

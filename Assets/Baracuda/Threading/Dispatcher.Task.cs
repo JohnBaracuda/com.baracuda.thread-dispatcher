@@ -15,13 +15,13 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static void Invoke(Func<Task> func)
+        public static void Invoke(Func<Task> function)
         {
             async void Action()
             {
-                await func();
+                await function();
             }
             Invoke(Action);
         }
@@ -32,14 +32,14 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static void Invoke(Func<Task> func, ExecutionCycle cycle)
+        public static void Invoke(Func<Task> function, ExecutionCycle cycle)
         {
             async void Action()
             {
-                await func();
+                await function();
             }
 
             Invoke(Action, cycle);
@@ -51,18 +51,18 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
         /// <param name="throwOnCancellation"> </param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static void Invoke(Func<Task> func, CancellationToken ct, bool throwOnCancellation = true)
+        public static void Invoke(Func<CancellationToken, Task> function, CancellationToken ct, bool throwOnCancellation = true)
         {
             async void Action()
             {
                 try
                 {
                     ct.ThrowIfCancellationRequested();
-                    await func();
+                    await function(ct);
                 }
                 catch (OperationCanceledException oce)
                 {
@@ -85,12 +85,12 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
         /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
         /// <param name="throwOnCancellation"> </param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static void Invoke(Func<Task> func, ExecutionCycle cycle, CancellationToken ct,
+        public static void Invoke(Func<CancellationToken, Task> function, ExecutionCycle cycle, CancellationToken ct,
             bool throwOnCancellation = true)
         {
             async void Action()
@@ -98,7 +98,7 @@ namespace Baracuda.Threading
                 try
                 {
                     ct.ThrowIfCancellationRequested();
-                    await func();
+                    await function(ct);
                 }
                 catch (OperationCanceledException oce)
                 {
@@ -127,9 +127,9 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="task"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Func<Task> task)
+        public static Task InvokeAsync(Func<Task> function)
         {
             var tcs = new TaskCompletionSource();
 
@@ -137,7 +137,7 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    await task();
+                    await function();
                     tcs.SetCompleted();
                 }
                 catch (Exception exception)
@@ -160,10 +160,10 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Func<Task> func, ExecutionCycle cycle)
+        public static Task InvokeAsync(Func<Task> function, ExecutionCycle cycle)
         {
             var tcs = new TaskCompletionSource();
 
@@ -171,7 +171,7 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    await func();
+                    await function();
                     tcs.SetCompleted();
                 }
                 catch (Exception exception)
@@ -194,11 +194,11 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
         /// <param name="throwOnCancellation"> </param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Func<Task> func, CancellationToken ct, bool throwOnCancellation = true)
+        public static Task InvokeAsync(Func<CancellationToken, Task> function, CancellationToken ct, bool throwOnCancellation = true)
         {
             var tcs = new TaskCompletionSource();
 
@@ -207,7 +207,7 @@ namespace Baracuda.Threading
                 try
                 {
                     ct.ThrowIfCancellationRequested();
-                    await func();
+                    await function(ct);
                     tcs.SetCompleted();
                 }
                 catch (OperationCanceledException oce)
@@ -241,12 +241,12 @@ namespace Baracuda.Threading
         /// Tasks are by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Task"/> dispatched task.</param>
+        /// <param name="function"><see cref="Task"/> dispatched task.</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task"/> is executed.</param>
         /// <param name="ct"> optional cancellation token that can be passed to abort the task prematurely.</param>
         /// <param name="throwOnCancellation"> </param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#task">Documentation</a></footer>
-        public static Task InvokeAsync(Func<Task> func, ExecutionCycle cycle, CancellationToken ct,
+        public static Task InvokeAsync(Func<CancellationToken, Task> function, ExecutionCycle cycle, CancellationToken ct,
             bool throwOnCancellation = true)
         {
             var tcs = new TaskCompletionSource();
@@ -257,7 +257,7 @@ namespace Baracuda.Threading
                 {
                     ct.ThrowIfCancellationRequested();
 
-                    await func();
+                    await function(ct);
                     tcs.SetCompleted();
                 }
                 catch (OperationCanceledException oce)
@@ -295,9 +295,9 @@ namespace Baracuda.Threading
         /// The passed delegate is by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
+        /// <param name="function"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> func)
+        public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> function)
         {
             var tcs = new TaskCompletionSource<TResult>();
 
@@ -305,8 +305,7 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    var task = func();
-                    tcs.SetResult(await task);
+                    tcs.SetResult(await function());
                 }
                 catch (Exception exception)
                 {
@@ -329,10 +328,10 @@ namespace Baracuda.Threading
         /// The passed delegate is by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
+        /// <param name="function"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task{TResult}"/> is executed.</param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> func, ExecutionCycle cycle)
+        public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> function, ExecutionCycle cycle)
         {
             var tcs = new TaskCompletionSource<TResult>();
 
@@ -340,8 +339,7 @@ namespace Baracuda.Threading
             {
                 try
                 {
-                    var task = func();
-                    tcs.SetResult(await task);
+                    tcs.SetResult(await function());
                 }
                 catch (Exception exception)
                 {
@@ -364,10 +362,10 @@ namespace Baracuda.Threading
         /// The passed delegate is by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
+        /// <param name="function"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
         /// <param name="ct"></param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> func, CancellationToken ct)
+        public static Task<TResult> InvokeAsync<TResult>(Func<CancellationToken, Task<TResult>> function, CancellationToken ct)
         {
             var tcs = new TaskCompletionSource<TResult>();
 
@@ -376,8 +374,7 @@ namespace Baracuda.Threading
                 try
                 {
                     ct.ThrowIfCancellationRequested();
-                    var task = func();
-                    tcs.SetResult(await task);
+                    tcs.SetResult(await function(ct));
                 }
                 catch (Exception exception)
                 {
@@ -400,11 +397,11 @@ namespace Baracuda.Threading
         /// The passed delegate is by default executed during the next available<br/>
         /// Update, FixedUpdate, LateUpdate or TickUpdate cycle.<br/>
         /// </summary>
-        /// <param name="func"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
+        /// <param name="function"><see cref="Func{TResult}"/> dispatched function that yields a <see cref="Task{TResult}"/> .</param>
         /// <param name="cycle">The execution cycle during which the passed <see cref="Task{TResult}"/> is executed.</param>
         /// <param name="ct"></param>
         /// <footer><a href="https://johnbaracuda.com/dispatcher.html#taskTResult">Documentation</a></footer>
-        public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> func, ExecutionCycle cycle,
+        public static Task<TResult> InvokeAsync<TResult>(Func<CancellationToken, Task<TResult>> function, ExecutionCycle cycle,
             CancellationToken ct)
         {
             var tcs = new TaskCompletionSource<TResult>();
@@ -414,8 +411,7 @@ namespace Baracuda.Threading
                 try
                 {
                     ct.ThrowIfCancellationRequested();
-                    var task = func();
-                    tcs.SetResult(await task);
+                    tcs.SetResult(await function(ct));
                 }
                 catch (Exception exception)
                 {
