@@ -72,7 +72,7 @@ namespace Baracuda.Threading
         
         private static readonly Thread _mainThread = Thread.CurrentThread;
         
-        private static readonly CancellationTokenSource _runtimeCts = new CancellationTokenSource();
+        private static CancellationTokenSource _runtimeCts = new CancellationTokenSource();
         
         private static readonly Queue<Action> _defaultExecutionQueue = new Queue<Action>(10);
         private static volatile bool _queuedDefault = false;
@@ -131,8 +131,14 @@ namespace Baracuda.Threading
 
         private void OnApplicationQuit()
         {
+            CancelAndResetRuntimeToken();
+        }
+
+        private static void CancelAndResetRuntimeToken()
+        {
             _runtimeCts.Cancel();
             _runtimeCts.Dispose();
+            _runtimeCts = new CancellationTokenSource();
         }
 
 
@@ -145,9 +151,7 @@ namespace Baracuda.Threading
                 switch (change)
                 {
                     case UnityEditor.PlayModeStateChange.ExitingEditMode:
-                    case UnityEditor.PlayModeStateChange.ExitingPlayMode:
-                        _runtimeCts.Cancel();
-                        _runtimeCts.Dispose();
+                        CancelAndResetRuntimeToken();
                         break;
                 }
             };

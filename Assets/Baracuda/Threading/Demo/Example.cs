@@ -215,7 +215,7 @@ namespace Baracuda.Threading.Demo
             }
             catch (Exception exception)
             {
-                Debug.LogException(exception);
+                Debug.Log(exception);
             }
         }
 
