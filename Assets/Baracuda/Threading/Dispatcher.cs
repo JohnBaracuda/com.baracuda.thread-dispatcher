@@ -141,6 +141,7 @@ namespace Baracuda.Threading
                 switch (change)
                 {
                     case UnityEditor.PlayModeStateChange.ExitingEditMode:
+                    case UnityEditor.PlayModeStateChange.ExitingPlayMode:
                         CancelAndResetRuntimeToken();
                         break;
                 }
