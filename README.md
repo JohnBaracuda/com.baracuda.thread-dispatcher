@@ -2,9 +2,9 @@
 Thread Dispatcher is an open source tool to pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.
 
 
-• [Detailed Documentation](https://johnbaracuda.com/dispatcher.html)
-• [Asset Store](https://assetstore.unity.com/packages/slug/202421)
-• [Download (2.0.1)](https://download.johnbaracuda.com/Dispatcher.unitypackage)
+• [Detailed Documentation](https://johnbaracuda.com/dispatcher.html)  
+• [Asset Store](https://assetstore.unity.com/packages/slug/202421)  
+• [Download (2.0.1)](https://download.johnbaracuda.com/Dispatcher.unitypackage)  
 
 
 ### Example
@@ -34,17 +34,17 @@ public async Task  WorkerTask()
 ```
 
 ### Features
-• Dispatch the execution of an Action to the main thread.
-• Dispatch the execution of a **Func<TResult>** to the main thread.
-• Dispatch the execution of a **Coroutine** to the main thread.
-• Dispatch the execution of a **Task** to the main thread.
-• Dispatch the execution of a **Task<TResult>** to the main thread.
-• **Await** the **execution & result** of a delegate or task on the calling thread.
-• **Await** the **start** or the **competion** of a Coroutine on the calling thread.
-• Asynchronous overloads have **full cancellation support**.
-• Multiple **extension methods** to reduce boilder plate code.
-• Toggle the dispatchers execution cycles with **custom #defines** for more control in performance critical projects.
-• Full C# **source code** included.
+• Dispatch the execution of an Action to the main thread.  
+• Dispatch the execution of a **Func<TResult>** to the main thread.  
+• Dispatch the execution of a **Coroutine** to the main thread.  
+• Dispatch the execution of a **Task** to the main thread.  
+• Dispatch the execution of a **Task<TResult>** to the main thread.  
+• **Await** the **execution & result** of a delegate or task on the calling thread.  
+• **Await** the **start** or the **competion** of a Coroutine on the calling thread.  
+• Asynchronous overloads have **full cancellation support**.  
+• Multiple **extension methods** to reduce boilder plate code.  
+• Toggle the dispatchers execution cycles with **custom #defines** for more control in performance critical projects.  
+• Full C# **source code** included.  
  
  
 ❤️❤️❤️ [Donations | PayPla.me](https://www.paypal.com/paypalme/johnbaracuda) ❤️❤️❤️
