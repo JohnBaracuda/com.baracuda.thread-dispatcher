@@ -13,23 +13,23 @@ Thread Dispatcher is an open source tool to pass the execution of a Delegate, Co
 public async Task  WorkerTask()  
 {  
     // Dispatch an Action that is executed on the main thread.  
-	   Dispatcher.Invoke(() =>  
-	   {  
-		      // Executed on main thread.
-	   });  
-  
-	   // Dispatch an Action that is executed on the main thread and await its completion.  
-	   await Dispatcher.InvokeAsync(() =>  
-	   {  
-		     // Executed on main thread.
-	   });  
-	
-	   // Dispatch a Func<TResult> that is executed on the main thread and await its result.  
-	   var player = await Dispatcher.InvokeAsync(() =>  
-	   {  
-		     // Executed on main thread.
-       return  FindObjectOfType<Player>();
-	   }); 
+    Dispatcher.Invoke(() =>  
+    {
+	// Executed on main thread.
+    });  
+
+    // Dispatch an Action that is executed on the main thread and await its completion.  
+    await Dispatcher.InvokeAsync(() =>  
+    {  
+	// Executed on main thread.
+    });  
+
+    // Dispatch a Func<TResult> that is executed on the main thread and await its result.  
+    var player = await Dispatcher.InvokeAsync(() =>  
+    {  
+	// Executed on main thread.
+	return  FindObjectOfType<Player>();
+    }); 
 }
 ```
 
@@ -47,4 +47,4 @@ public async Task  WorkerTask()
 • Full C# **source code** included.  
  
  
-❤️❤️❤️ [Donations | PayPla.me](https://www.paypal.com/paypalme/johnbaracuda) ❤️❤️❤️
+❤️❤️❤️ [Donations | PayPal.me](https://www.paypal.com/paypalme/johnbaracuda) ❤️❤️❤️
