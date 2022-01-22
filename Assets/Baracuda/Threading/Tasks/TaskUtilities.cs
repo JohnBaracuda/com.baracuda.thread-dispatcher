@@ -7,7 +7,7 @@ namespace Baracuda.Threading.Tasks
 {
     public static class TaskUtilities
     {
-#if UNITY_2020_3_OR_NEWER
+#if ENABLE_VALUETASK
         /// <summary>
         /// Return a <see cref="ValueTask"/> that will yield until the passed condition evaluates to true.
         /// You can set the interval in which the condition is evaluated.

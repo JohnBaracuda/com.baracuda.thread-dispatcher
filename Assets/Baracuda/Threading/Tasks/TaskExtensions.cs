@@ -234,7 +234,7 @@ namespace Baracuda.Threading.Tasks
         //--------------------------------------------------------------------------------------------------------------
         
         #region --- [VALUETASK TIMEOUT] ---
-#if UNITY_2020_3_OR_NEWER
+#if ENABLE_VALUETASK
         
         /// <summary>
         /// Set a timout for the completion of the target <see cref="Task"/>. A <exception cref="TimeoutException"></exception>
@@ -270,7 +270,7 @@ namespace Baracuda.Threading.Tasks
         #endregion
         
         #region --- [VALUETASK TIMEOUT: ASYNC] ---
-#if UNITY_2020_3_OR_NEWER
+#if ENABLE_VALUETASK
         
         /// <summary>
         /// Set a timout for the completion of the target <see cref="Task"/>. A <exception cref="TimeoutException"></exception>
@@ -313,7 +313,7 @@ namespace Baracuda.Threading.Tasks
         //--------------------------------------------------------------------------------------------------------------
         
         #region --- [VALUETASK GENERIC EXCEPTION HANDLING] ---
-#if UNITY_2020_3_OR_NEWER
+#if ENABLE_VALUETASK
         
         /// <summary>
         /// Ignore any <see cref="Exception"/> of type <see cref="TException"/> that might occur during the execution of the
@@ -385,7 +385,7 @@ namespace Baracuda.Threading.Tasks
         #endregion
         
         #region --- [VALUETASK CONCRETE EXCEPTION HANDLING] ---
-#if UNITY_2020_3_OR_NEWER
+#if ENABLE_VALUETASK
         
         /// <summary>
         /// Ignore any <see cref="TimeoutException"/> that might occur during the execution of the
@@ -414,7 +414,7 @@ namespace Baracuda.Threading.Tasks
         #endregion
 
         #region --- [VALUETASK CONCRETE EXCEPTION HANDLING: ASYNC] ---
-#if UNITY_2020_3_OR_NEWER
+#if ENABLE_VALUETASK
         
         /// <summary>
         /// Ignore any <see cref="TimeoutException"/> that might occur during the execution of the
