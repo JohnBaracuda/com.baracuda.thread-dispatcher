@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using Baracuda.Threading.Internal;
+using Baracuda.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -205,8 +206,11 @@ namespace Baracuda.Threading.Demo
             
                 // simulating async work
                 await Task.Delay(2000, ct);
-
-                var result = await Dispatcher.InvokeAsync(TaskExampleMainThread, ct);
+                Debug.Log("Start");
+                var result = await Dispatcher.InvokeAsync(TaskExampleMainThread, ct)
+                    .TimeoutAsync(1500, ct)
+                    .IgnoreTimeoutExceptionAsync()
+                    .IgnoreOperationCanceledExceptionAsync();
 
                 await Dispatcher.InvokeAsync(() =>
                 {
