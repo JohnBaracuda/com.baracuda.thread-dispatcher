@@ -8,7 +8,7 @@ namespace Baracuda.Threading
 {
     public partial class Dispatcher
     {
-        #region --- [DISPATCH: TASK] ---
+        #region --- Dispatch: Task ---
 
         /// <summary>
         /// Dispatch the execution of a <see cref="Task"/> to the main thread.
@@ -119,7 +119,7 @@ namespace Baracuda.Threading
         
         //--------------------------------------------------------------------------------------------------------------
         
-        #region --- [DISPATCH: TASK ASYNC] ---
+        #region --- Dispatch: Task Async ---
 
         /// <summary>
         /// Dispatch the execution of a <see cref="Task"/> to the main thread; and return a <see cref="Task"/>,
@@ -286,7 +286,7 @@ namespace Baracuda.Threading
 
         #endregion
 
-        #region --- [DISPATCH: TASK<TRESULT> ASYNC] ---
+        #region --- Dispatch: Task<TResult> Async ---
 
         /// <summary>
         /// Dispatch the execution of a <see cref="Func{TResult}"/> to the main thread, which yields a <see cref="Task{TResult}"/>

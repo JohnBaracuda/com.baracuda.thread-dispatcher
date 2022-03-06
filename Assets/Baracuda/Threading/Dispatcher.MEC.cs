@@ -15,7 +15,7 @@ namespace Baracuda.Threading
 {
     public partial class Dispatcher
     {
-        #region --- [DISPATCH: MEC COROUTINE] ---
+        #region --- Dispatch: MEC Coroutine ---
 
         /// <summary>
         ///     Experimental feature will change in future versions!<br/>
@@ -58,7 +58,7 @@ namespace Baracuda.Threading
 
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [DISPATCH: COROUTINE ASYNC : AWAIT START] ---
+        #region --- Dispatch: MEC Coroutine Async : Await Start ---
 
         /// <summary>
         ///     Experimental feature will change in future versions!<br/>
@@ -178,7 +178,7 @@ namespace Baracuda.Threading
 
         #endregion
         
-        #region --- [DISPATCH: COROUTINE ASYNC : AWAIT COMPLETION] ---
+        #region --- Dispatch: MEC Coroutine Async : Await Completion ---
 
         /// <summary>
         ///     Experimental feature will change in future versions!<br/>

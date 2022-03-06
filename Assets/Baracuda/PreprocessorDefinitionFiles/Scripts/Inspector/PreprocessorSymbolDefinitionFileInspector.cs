@@ -70,7 +70,9 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
             GUIExtensions.DrawGUISpace();
             
             if(PreprocessorSymbolDefinitionSettings.ShowAllDefinedSymbols)
+            {
                 GUIExtensions.DrawGlobalSymbols();
+            }
         }
 
         #endregion
@@ -216,7 +218,11 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
         {
             foreach (var defineData in _mTargetObject.LocalSymbols)
             {
-                if (_mCheckedSymbols.Contains(defineData.Symbol)) continue;
+                if (_mCheckedSymbols.Contains(defineData.Symbol))
+                {
+                    continue;
+                }
+
                 if (_mTargetObject.LocalSymbols.Count(other => defineData.Equals(other)) > 1)
                 {
                     defineData.IsValid = false;
@@ -242,7 +248,11 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
         {
             foreach (var defineData in _mTargetObject.LocalSymbols)
             {
-                if (_mCheckedSymbols.Contains(defineData.Symbol)) continue;
+                if (_mCheckedSymbols.Contains(defineData.Symbol))
+                {
+                    continue;
+                }
+
                 if (PreprocessorDefineUtilities.IsSymbolDefinedElsewhere(defineData.Symbol, _mTargetObject))
                 {
                     defineData.IsValid = false;
@@ -268,7 +278,11 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
         {
             foreach (var defineData in _mTargetObject.LocalSymbols)
             {
-                if (_mCheckedSymbols.Contains(defineData.Symbol)) continue;
+                if (_mCheckedSymbols.Contains(defineData.Symbol))
+                {
+                    continue;
+                }
+
                 if (PreprocessorDefineUtilities.IsSymbolElevated(defineData.Symbol))
                 {
                     defineData.IsValid = false;

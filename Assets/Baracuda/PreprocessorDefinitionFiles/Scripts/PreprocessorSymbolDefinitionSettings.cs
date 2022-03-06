@@ -108,7 +108,11 @@ namespace Baracuda.PreprocessorDefinitionFiles
             Instance.scriptDefineSymbolFiles?.Clear();
             foreach (var file in Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionFile>())
             {
-                if(file == null) continue;
+                if(file == null)
+                {
+                    continue;
+                }
+
                 AddScriptDefineSymbolFile(file);
             }
         }
@@ -141,11 +145,11 @@ namespace Baracuda.PreprocessorDefinitionFiles
 #if UNITY_2020_1_OR_NEWER 
             => _instance ??= Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionSettings>().FirstOrDefault() ?? CreateInstanceAsset();
 #else
-            => _instance ? _instance : _instance = Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionSettings>().FirstOrDefault() ?? CreateInstanceAsset();
+            => instance ? instance : instance = Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionSettings>().FirstOrDefault() ?? CreateInstanceAsset();
 #endif
         
         
-        private static PreprocessorSymbolDefinitionSettings _instance = null;
+        private static PreprocessorSymbolDefinitionSettings instance = null;
 
         private static PreprocessorSymbolDefinitionSettings CreateInstanceAsset()
         {
@@ -178,20 +182,22 @@ namespace Baracuda.PreprocessorDefinitionFiles
         /// <returns></returns>
         private static string CreateFilePath()
         {
-            foreach (var path in _preferredPaths)
+            foreach (var path in preferredPaths)
             {
                 if (Directory.Exists(path))
+                {
                     return $"{path}/{FILENAME_ASSET}";
+                }
             }
 
-            return _defaultPath;
+            return defaultPath;
         }
         
         private const string FILENAME_ASSET = "Preprocessor-Definition-Settings.asset";
-        private static readonly string _defaultPath = $"Assets/{FILENAME_ASSET}";
+        private static readonly string defaultPath = $"Assets/{FILENAME_ASSET}";
         
         
-        private static readonly string[] _preferredPaths =
+        private static readonly string[] preferredPaths =
         {
             "Assets/PreprocessorDefinitionFiles",
             "Assets/Baracuda/PreprocessorDefinitionFiles",
@@ -208,7 +214,7 @@ namespace Baracuda.PreprocessorDefinitionFiles
         
         private void OnEnable()
         {
-            if (AssetDatabase.GetAssetPath(this) == _defaultPath)
+            if (AssetDatabase.GetAssetPath(this) == defaultPath)
             {
                 AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(this), CreateFilePath());
             }

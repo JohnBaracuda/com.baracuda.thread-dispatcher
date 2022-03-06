@@ -19,7 +19,9 @@ namespace Baracuda.PreprocessorDefinitionFiles.Utilities
             foreach (var item in target)
             {
                 if(!list.Contains(item))
+                {
                     list.Add(item);
+                }
             }
             
             return list;
@@ -59,7 +61,11 @@ namespace Baracuda.PreprocessorDefinitionFiles.Utilities
         /// <returns>True if value was contained.</returns>
         public static bool TryRemove<T>(this ICollection<T> collection, T value)
         {
-            if (!collection.Contains(value)) return false;
+            if (!collection.Contains(value))
+            {
+                return false;
+            }
+
             collection.Remove(value);
             return true;
         }

@@ -8,7 +8,9 @@ namespace Baracuda.Threading.Editor
 {
     internal class DispatcherExecutionOrder : ScriptableObject
     {
-        #region --- [FIELDS] ---
+        /*
+         *  Fields   
+         */
 
         [SerializeField][HideInInspector] 
         internal int executionOrder = DEFAULT_EXECUTION_ORDER;
@@ -16,31 +18,29 @@ namespace Baracuda.Threading.Editor
         [SerializeField][HideInInspector] 
         internal int postExecutionOrder = DEFAULT_POST_EXECUTION_ORDER;
        
-        private static DispatcherExecutionOrder _current;
+        private static DispatcherExecutionOrder current;
         private const string DEFAULT_PATH = "Assets/Baracuda/Threading/Editor";
         internal const int DEFAULT_EXECUTION_ORDER = -500;
         internal const int DEFAULT_POST_EXECUTION_ORDER = 500;
 
         private void OnEnable()
         {
-            _current = this;
+            current = this;
         }
 
-        #endregion
-        
-        //--------------------------------------------------------------------------------------------------------------
-
-        #region --- [SINGLETON LOGIC] ---
+        /*
+         *  Singleton   
+         */
 
         internal static DispatcherExecutionOrder GetDispatcherExecutionOrderAsset()
         {
-            if (_current)
+            if (current)
             {
-                return _current;
+                return current;
             }
             else
             {
-                return _current = LoadDispatcherExecutionOrderAsset();
+                return current = LoadDispatcherExecutionOrderAsset();
             }
         }
 
@@ -56,14 +56,14 @@ namespace Baracuda.Threading.Editor
                 "Assets/Threading/Editor/DispatcherExecutionOrder.asset",
             };
 
-            DispatcherExecutionOrder current;
+            DispatcherExecutionOrder tempCurrent;
             
             for (var i = 0; i < paths.Length; i++)
             {
-                current = AssetDatabase.LoadAssetAtPath<DispatcherExecutionOrder>(paths[i]);
-                if (current != null)
+                tempCurrent = AssetDatabase.LoadAssetAtPath<DispatcherExecutionOrder>(paths[i]);
+                if (tempCurrent != null)
                 {
-                    return current;
+                    return tempCurrent;
                 }
             }
             
@@ -71,17 +71,17 @@ namespace Baracuda.Threading.Editor
             for(var i = 0; i < guids.Length; i++)
             {
                 var assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-                current = AssetDatabase.LoadAssetAtPath<DispatcherExecutionOrder>(assetPath);
-                if(current != null)
+                tempCurrent = AssetDatabase.LoadAssetAtPath<DispatcherExecutionOrder>(assetPath);
+                if(tempCurrent != null)
                 {
-                    return current;
+                    return tempCurrent;
                 }
             }
 
-            current = CreateDispatcherCache();
-            if(current != null)
+            tempCurrent = CreateDispatcherCache();
+            if(tempCurrent != null)
             {
-                return current;
+                return tempCurrent;
             }
 
             throw new Exception(
@@ -111,11 +111,9 @@ namespace Baracuda.Threading.Editor
             }
         }
 
-        #endregion
-        
-        //--------------------------------------------------------------------------------------------------------------
-        
-        #region --- [EXECUTION ORDER LOGIC] ---
+        /*
+         *  Execution Order Logic   
+         */
 
         /// <summary>
         /// Validate and update the current script execution order of the <see cref="Dispatcher"/>.
@@ -149,98 +147,5 @@ namespace Baracuda.Threading.Editor
             Debug.Log($"Setting the 'Script Execution Order' of {target.name} from {currentOrder} to {newOrder}");
             MonoImporter.SetExecutionOrder(target, newOrder);
         }
-
-        #endregion
-    }
-    
-    internal class ExecutionOrderWindow : EditorWindow
-    {
-        #region --- [FIELDS] ---
-
-        private DispatcherExecutionOrder _target = null;
-        
-        private readonly GUIContent _executionOrderContent = new GUIContent("Main Execution Order", 
-            "Set the script execution order for the Dispatcher.");
-        
-        private readonly GUIContent _postExecutionOrderContent = new GUIContent("Post Update Order", 
-            "Set the script execution order for the post update call of the Dispatcher.");
-
-        #endregion
-        
-        //--------------------------------------------------------------------------------------------------------------
-
-        #region --- [SETUP] ---
-
-        internal static void Open()
-        {
-            var window = GetWindow<ExecutionOrderWindow>("Execution Order");
-            window._target = DispatcherExecutionOrder.GetDispatcherExecutionOrderAsset();
-            window.Show(true);
-        }
-
-        private void OnDisable()
-        {
-            DispatcherExecutionOrder.ValidateExecutionOrder();
-        }
-
-        #endregion
-
-        //--------------------------------------------------------------------------------------------------------------
-
-        #region --- [GUI] ---
-
-        public void OnGUI()
-        {
-            var style = GUI.skin.GetStyle("HelpBox");
-            style.fontSize = 12;
-            style.richText = true;
-            EditorGUILayout.TextArea("The <b>'Dispatcher Execution Order'</b> affects the script execution order of the Dispatchers Update, LateUpdate and FixedUpdate." +
-                                     "The <b>'Post Update Execution Order'</b> affects the script execution order of the Dispatchers PostUpdate." +
-                                     "Post Update is technically another LateUpdate call, that is invoked on another component and then forwarded to the Dispatcher.", style);
-            
-            GUILayout.Space(5);
-            
-            GUILayout.BeginVertical("HelpBox");
-            EditorGUILayout.LabelField("Execution Order");
-            _target.executionOrder = EditorGUILayout.IntField(_executionOrderContent, _target.executionOrder);
-            _target.postExecutionOrder = EditorGUILayout.IntField(_postExecutionOrderContent, _target.postExecutionOrder);
-            GUILayout.EndVertical();
-
-            if (_target.executionOrder >= 0)
-            {
-                EditorGUILayout.HelpBox("Dispatcher Execution Order should be less then 0 to ensure that the Dispatcher is called before the default execution time.", MessageType.Warning);
-            }
-
-            if (_target.postExecutionOrder <= 0)
-            {
-                EditorGUILayout.HelpBox("Post Update Execution Order should be greater then 0 to ensure that the Post Update is called after the default execution time.", MessageType.Warning);
-            }
-
-            if (_target.executionOrder > _target.postExecutionOrder)
-            {
-                EditorGUILayout.HelpBox("Dispatcher Execution Order should be less then Post Update Execution Order to ensure that the Dispatchers PostUpdate is called after the the Dispatchers LateUpdate!", MessageType.Warning);
-            }
-            
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Documentation", GUILayout.MinWidth(120)))
-            {
-                Application.OpenURL("https://johnbaracuda.com/dispatcher.html#execution-order");
-            }
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Reset", GUILayout.MinWidth(120)))
-            {
-                _target.executionOrder = DispatcherExecutionOrder.DEFAULT_EXECUTION_ORDER;
-                _target.postExecutionOrder = DispatcherExecutionOrder.DEFAULT_POST_EXECUTION_ORDER;
-            }
-            if (GUILayout.Button("Save", GUILayout.MinWidth(120)))
-            {
-                DispatcherExecutionOrder.ValidateExecutionOrder();
-            }
-            GUILayout.EndHorizontal();
-
-            EditorUtility.SetDirty(_target);
-        }
-
-        #endregion
     }
 }

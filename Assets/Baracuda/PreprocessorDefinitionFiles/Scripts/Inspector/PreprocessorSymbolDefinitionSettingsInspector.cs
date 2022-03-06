@@ -66,7 +66,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
             serializedObject.Update();
             _mSecuredSymbolList.DoLayoutList();
             
-            if (GUILayout.Button(_checkForSymbolsContent, GUILayout.Width(200)))
+            if (GUILayout.Button(checkForSymbolsContent, GUILayout.Width(200)))
             {
                 PreprocessorDefineUtilities.ElevateIndependentSymbols();
             }
@@ -79,8 +79,10 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
 
             DrawSaveAll();
             if(PreprocessorSymbolDefinitionSettings.ShowAllDefinedSymbols)
+            {
                 GUIExtensions.DrawGlobalSymbols();
-            
+            }
+
             EditorUtility.SetDirty(target);
         }
 
@@ -114,19 +116,19 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
         }
 
 
-        private static readonly GUIContent _checkForSymbolsContent = 
+        private static readonly GUIContent checkForSymbolsContent = 
             new GUIContent(
                 "Check For Elevated Symbols",
                 "Scan the project for symbols that should be elevated.");
 
 
 
-        private static readonly GUIContent _applyUnsavedGUI = 
+        private static readonly GUIContent applyUnsavedGUI = 
             new GUIContent(
                 "Apply Unsaved Changes",
                 "Check if unsaved changes are present in any of the listed definition files and apply them.");
         
-        private static readonly GUIContent _updateListGUI = 
+        private static readonly GUIContent updateListGUI = 
             new GUIContent(
                 "Update List",
                 "Manually check if any definition file is located in the project that is not listed above.");
@@ -135,11 +137,11 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(_applyUnsavedGUI))
+            if (GUILayout.Button(applyUnsavedGUI))
             {
                 PreprocessorDefineUtilities.ApplyAndUpdateAllDefinitionFiles();
             }
-            if (GUILayout.Button(_updateListGUI))
+            if (GUILayout.Button(updateListGUI))
             {
                 PreprocessorSymbolDefinitionSettings.FindAllPreprocessorSymbolDefinitionFiles();
             }
@@ -165,20 +167,20 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
         //---------
         
         
-        private static readonly GUIContent _removeSymbolsOnDeleteContent = new GUIContent(
+        private static readonly GUIContent removeSymbolsOnDeleteContent = new GUIContent(
             "Remove Symbols On Delete",
             "Removes the symbols of a Preprocessor Symbol Definition File when it is deleted. " +
             "If this option is not enabled the symbols of a deleted file will be elevated and must be removed manually");
 
-        private static readonly GUIContent _logMessagesContent = new GUIContent(
+        private static readonly GUIContent logMessagesContent = new GUIContent(
             "Log Messages",
             "When enabled messages will be logged when symbols are removed, added or elevated.");
 
-        private static readonly GUIContent _saveOnCompileContent = new GUIContent(
+        private static readonly GUIContent saveOnCompileContent = new GUIContent(
             "Save And Apply On Load",
             "When enabled unsaved changes will be applied when scripts are recompiling.");
         
-        private static readonly GUIContent _showAllDefinedSymbols = new GUIContent(
+        private static readonly GUIContent showAllDefinedSymbols = new GUIContent(
             "Show All Defined Symbols",
             "When enabled, lists of all defined symbols will be displayed in the inspector of the settings file " +
             "as well as the inspector of Preprocessor Symbol Definition Files.");
@@ -189,7 +191,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
             EditorGUILayout.BeginHorizontal();
             // --- Draw RemoveSymbolsOnDelete Toggle
             PreprocessorSymbolDefinitionSettings.RemoveSymbolsOnDelete
-                = EditorGUILayout.ToggleLeft(_removeSymbolsOnDeleteContent, PreprocessorSymbolDefinitionSettings.RemoveSymbolsOnDelete);
+                = EditorGUILayout.ToggleLeft(removeSymbolsOnDeleteContent, PreprocessorSymbolDefinitionSettings.RemoveSymbolsOnDelete);
             GUILayout.FlexibleSpace();
             
             // --- Draw Build Target
@@ -200,7 +202,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
             
             // --- Draw LogMessages Toggle 
             PreprocessorSymbolDefinitionSettings.LogMessages = EditorGUILayout.ToggleLeft(
-                _logMessagesContent,
+                logMessagesContent,
                 PreprocessorSymbolDefinitionSettings.LogMessages);
             
             // --- Draw SaveOnCompile Toggle
@@ -212,7 +214,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
             
             // --- Draw ShowAllDefinedSymbols Toggle
             PreprocessorSymbolDefinitionSettings.ShowAllDefinedSymbols = EditorGUILayout.ToggleLeft(
-                _showAllDefinedSymbols,
+                showAllDefinedSymbols,
                 PreprocessorSymbolDefinitionSettings.ShowAllDefinedSymbols);
         }
         

@@ -5,13 +5,9 @@ namespace Baracuda.Threading
 {
     public partial class Dispatcher
     {
-        #region --- [SINGLETON] ---
-
-        // backing field for Dispatcher.Current
-        private static Dispatcher _current;
-        
-        // flag to determine if an invalid operation exception should be thrown when destroying the GameObject.
-        private bool _throw = true;
+        /*
+         *  Singleton
+         */
         
         /// <summary>
         /// Get the current instance of <see cref="Dispatcher"/>. If no instance can be found a new object is created.
@@ -20,19 +16,27 @@ namespace Baracuda.Threading
         {
             get
             {
-                if (_current == null)
+                if (current == null)
                 {
-                    _current = FindObjectOfType<Dispatcher>() 
+                    current = FindObjectOfType<Dispatcher>() 
                                ?? new GameObject(nameof(Dispatcher)).AddComponent<Dispatcher>();
                 }
-                return _current;
+                return current;
             }
         }
         
+        private static Dispatcher current;
+        
+        // flag to determine if an invalid operation exception should be thrown when destroying the GameObject.
+        private bool _throw = true;
+        
         private void Awake()
         {
-            if(this == null) return;
-            
+            if(this == null)
+            {
+                return;
+            }
+
             if (Current != null && Current != this)
             {
                 Debug.LogWarning($"Multiple Dispatcher detected! Destroying {gameObject.name} Please ensure that there is only one Dispatcher in your scene!");
@@ -41,7 +45,7 @@ namespace Baracuda.Threading
                 return;
             }
             
-            _current = this;
+            current = this;
 
             DontDestroyOnLoad(gameObject);
         }
@@ -49,8 +53,12 @@ namespace Baracuda.Threading
 
         private void OnDestroy()
         {
-            if (Current != this) return;
-            _current = null;
+            if (Current != this)
+            {
+                return;
+            }
+
+            current = null;
             
             if (_throw && gameObject.scene.isLoaded)
             {
@@ -59,8 +67,6 @@ namespace Baracuda.Threading
                     $"{nameof(Dispatcher)} was destroyed during playmode. Please ensure that the {nameof(Dispatcher)} is not destroyed during playmode!");
             }
         }
-        
-        #endregion
     }
 }
 

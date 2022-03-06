@@ -36,7 +36,7 @@ namespace Baracuda.Threading.Demo
 
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [EXAMPLE: ACTION] ---
+        #region --- Example: Action ---
 
         private void StartActionExample()
         {
@@ -62,7 +62,7 @@ namespace Baracuda.Threading.Demo
 
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [EXAMPLE: FUNC<TRESULT>] ---
+        #region --- Example: Func<TResult> ---
 
         private void StartFuncExample()
         {
@@ -93,7 +93,7 @@ namespace Baracuda.Threading.Demo
 
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [EXAMPLE: COROUTINE] ---
+        #region --- Example Coroutine ---
 
         private void StartCoroutineExample()
         {
@@ -130,7 +130,7 @@ namespace Baracuda.Threading.Demo
         
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [EXAMPLE: COROUTINE] ---
+        #region --- Example: Coroutine ---
 
         private void StartCoroutineExampleWithException()
         {
@@ -190,7 +190,7 @@ namespace Baracuda.Threading.Demo
         
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- [EXAMPLE: TASK] ---
+        #region --- Example: Task ---
 
         private void StartTaskExample()
         {
@@ -233,6 +233,5 @@ namespace Baracuda.Threading.Demo
         }
         
         #endregion
-
     }
 }

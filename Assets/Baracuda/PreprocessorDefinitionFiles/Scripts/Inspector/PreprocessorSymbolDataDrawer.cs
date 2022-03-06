@@ -13,7 +13,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
 
         #region --- [FIELDS] ---
 
-        private static readonly Color _inactiveColor = new Color(0.53f, 0.53f, 0.53f);
+        private static readonly Color inactiveColor = new Color(0.53f, 0.53f, 0.53f);
         
         #endregion
         
@@ -46,7 +46,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
             var activeAndEnabled = enabled && targetGroup.HasFlag(PreprocessorDefineUtilities.FlagsBuildTargetCache);
             var isDefined = PreprocessorDefineUtilities.IsSymbolDefined(symbol);
             
-            GUI.contentColor = activeAndEnabled ? color : _inactiveColor;
+            GUI.contentColor = activeAndEnabled ? color : inactiveColor;
 
             // Draw fields - pass GUIContent.none to each so they are drawn without labels.
             // Draw empty label fields to display tooltips. 
@@ -107,7 +107,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Inspector
             {
                 GUI.contentColor = color;
                 EditorGUI.LabelField(appliedRect, new GUIContent("*", $"Changes must be applied!"));
-                GUI.contentColor = _inactiveColor;
+                GUI.contentColor = inactiveColor;
             }
             else if (!isDefined && activeAndEnabled && targetGroup.HasFlag(PreprocessorDefineUtilities.FlagsBuildTargetCache))
             {

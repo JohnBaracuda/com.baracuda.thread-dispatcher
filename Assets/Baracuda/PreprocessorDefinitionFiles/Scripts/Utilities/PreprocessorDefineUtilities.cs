@@ -144,25 +144,28 @@ namespace Baracuda.PreprocessorDefinitionFiles.Utilities
         /// <summary>
         /// Get a list of the "current" Version defines.
         /// </summary>
-        public static IEnumerable<string> VersionDefines => _sVersionDefines ?? CreateVersionDefines();
+        public static IEnumerable<string> VersionDefines => sVersionDefines ?? CreateVersionDefines();
 
         
         /// <summary>
         /// Backend field
         /// </summary>
-        private static List<string> _sVersionDefines = null;
+        private static List<string> sVersionDefines = null;
         private static List<string> CreateVersionDefines()
         {
-            if (_sVersionDefines != null) throw new InvalidOperationException(
-                $"Only allowed to call {nameof(CreateVersionDefines)} when {nameof(_sVersionDefines)} is null or empty!");
-            
-            _sVersionDefines = new List<string>();
-            var splitVersion = Application.unityVersion.Split('.');
-            _sVersionDefines.Add($"UNITY_{splitVersion[0]}"); // eg UNITY_2021
-            _sVersionDefines.Add($"UNITY_{splitVersion[0]}_{splitVersion[1]}"); // eg UNITY_2021_1
-            _sVersionDefines.Add($"UNITY_{splitVersion[0]}_{splitVersion[1]}_OR_NEWER"); // eg UNITY_2021_1_OR_NEWER
+            if (sVersionDefines != null)
+            {
+                throw new InvalidOperationException(
+                    $"Only allowed to call {nameof(CreateVersionDefines)} when {nameof(sVersionDefines)} is null or empty!");
+            }
 
-            return _sVersionDefines;
+            sVersionDefines = new List<string>();
+            var splitVersion = Application.unityVersion.Split('.');
+            sVersionDefines.Add($"UNITY_{splitVersion[0]}"); // eg UNITY_2021
+            sVersionDefines.Add($"UNITY_{splitVersion[0]}_{splitVersion[1]}"); // eg UNITY_2021_1
+            sVersionDefines.Add($"UNITY_{splitVersion[0]}_{splitVersion[1]}_OR_NEWER"); // eg UNITY_2021_1_OR_NEWER
+
+            return sVersionDefines;
         }
 
         #endregion
@@ -178,11 +181,14 @@ namespace Baracuda.PreprocessorDefinitionFiles.Utilities
         [InitializeOnLoadMethod]
         internal static void ElevateIndependentSymbols()
         {
-            _sIsProSkin = EditorGUIUtility.isProSkin;
+            sIsProSkin = EditorGUIUtility.isProSkin;
             
             var files = PreprocessorSymbolDefinitionSettings.ScriptDefineSymbolFiles;
-            if(files.IsNullOrIncomplete()) return;
-            
+            if(files.IsNullOrIncomplete())
+            {
+                return;
+            }
+
             // Create a temp list containing every symbol defined in a PreprocessorSymbolDefinitionFile.
             var localSymbols = new List<string>();
             foreach (var sdsFile in files)
@@ -253,16 +259,16 @@ namespace Baracuda.PreprocessorDefinitionFiles.Utilities
             return PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTarget).Split(';');
         }
         
-        private static bool _sIsProSkin = true;
+        private static bool sIsProSkin = true;
         
         private static string ColorElevated 
-            => _sIsProSkin? "<color=#75e09c>" : "<color=#1e5438>";
+            => sIsProSkin? "<color=#75e09c>" : "<color=#1e5438>";
         
         private static string ColorAdded 
-            => _sIsProSkin? "<color=#4babeb>" : "<color=#204c69>";
+            => sIsProSkin? "<color=#4babeb>" : "<color=#204c69>";
         
         private static string ColorRemoved 
-            => _sIsProSkin? "<color=#eb4b6b>" : "<color=#99183d>";
+            => sIsProSkin? "<color=#eb4b6b>" : "<color=#99183d>";
         
         /// <summary>
         /// Sets the passed collection of symbols and applies them on a global scale.
@@ -351,17 +357,25 @@ namespace Baracuda.PreprocessorDefinitionFiles.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsSymbolDefinedElsewhere(string symbol, PreprocessorSymbolDefinitionFile file)
         {
-            if (string.IsNullOrWhiteSpace(symbol)) return false;
-            
+            if (string.IsNullOrWhiteSpace(symbol))
+            {
+                return false;
+            }
+
             foreach (var sdsFile in PreprocessorSymbolDefinitionSettings.ScriptDefineSymbolFiles)
             {
-                if (sdsFile == file) continue;
-                
+                if (sdsFile == file)
+                {
+                    continue;
+                }
+
                 // Check if the symbol is already defined in another file.
                 foreach (var fileSymbol in sdsFile.LocalSymbols)
                 {
-                    if (fileSymbol.Symbol == symbol) 
+                    if (fileSymbol.Symbol == symbol)
+                    {
                         return true;
+                    }
                 }
             }
             

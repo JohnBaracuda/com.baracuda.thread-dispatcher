@@ -10,12 +10,18 @@ namespace Baracuda.PreprocessorDefinitionFiles.AssetProcessor
     {
         private static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
         {
-            if (options != RemoveAssetOptions.MoveAssetToTrash) return AssetDeleteResult.DidNotDelete;
+            if (options != RemoveAssetOptions.MoveAssetToTrash)
+            {
+                return AssetDeleteResult.DidNotDelete;
+            }
 
             AssetDatabase.Refresh();
 
-            if (!PreprocessorSymbolDefinitionSettings.RemoveSymbolsOnDelete) return AssetDeleteResult.DidNotDelete;
-            
+            if (!PreprocessorSymbolDefinitionSettings.RemoveSymbolsOnDelete)
+            {
+                return AssetDeleteResult.DidNotDelete;
+            }
+
             if (AssetDatabase.LoadAssetAtPath<Object>(assetPath) is PreprocessorSymbolDefinitionFile scriptDefinitionSymbolFile)
             {
                 // Call the custom Dispose method on the object.
