@@ -37,6 +37,17 @@ namespace Baracuda.Threading
         public static bool IsMainThread() => Thread.CurrentThread.ManagedThreadId == (mainThread?.ManagedThreadId 
             ?? throw new Exception($"{nameof(Dispatcher)}.{nameof(mainThread)} is not initialized"));
 
+        /// <summary>
+        /// Throws an InvalidOperationException if not called from the main thread.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GuardAgainstIsNotMainThread(string methodCall)
+        {
+            if (!IsMainThread())
+            {
+                throw new InvalidOperationException($"{methodCall} is only allowed to bne called from the main thread!");
+            }
+        }
         
         /// <summary>
         /// Ensure that a <see cref="Dispatcher"/> instance exists and return it.

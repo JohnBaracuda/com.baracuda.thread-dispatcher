@@ -18,6 +18,8 @@ namespace Baracuda.Threading
             {
                 if (current == null)
                 {
+                    GuardAgainstIsNotMainThread(nameof(Current));
+                    
                     current = FindObjectOfType<Dispatcher>() 
                                ?? new GameObject(nameof(Dispatcher)).AddComponent<Dispatcher>();
                 }
