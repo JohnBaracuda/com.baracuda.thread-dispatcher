@@ -8,7 +8,7 @@ Thread Dispatcher is an open source tool to pass the execution of a Delegate, Co
 
 
 ### Example
-```javascript
+```c#
 // Task is running on a background thread.
 public async Task  WorkerTask()  
 {  
