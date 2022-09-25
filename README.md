@@ -42,7 +42,6 @@ public async Task  WorkerTask()
 • **Await** the **start** or the **competion** of a Coroutine on the calling thread.  
 • Asynchronous overloads have **full cancellation support**.  
 • Multiple **extension methods** to reduce boilder plate code.  
-• Toggle the dispatchers execution cycles with **custom #defines** for more control in performance critical projects.  
 • Full C# **source code** included.  
  
  
