@@ -97,18 +97,18 @@ namespace Baracuda.Threading.Demo
 
         private void StartCoroutineExample()
         {
-            Task.Run(CoroutineExampleWorker);
+            Task.Run(() => CoroutineExampleWorker(Dispatcher.RuntimeToken), Dispatcher.RuntimeToken);
         }
 
-        private async Task CoroutineExampleWorker()
+        private async Task CoroutineExampleWorker(CancellationToken ct)
         {
             // caching the current thread id
             var threadID = Thread.CurrentThread.ManagedThreadId;
 
             // simulating async work
-            await Task.Delay(1000);
+            await Task.Delay(1000, ct);
 
-            Dispatcher.Invoke(ExampleCoroutine(threadID));
+            await Dispatcher.InvokeAsyncAwaitStart(ExampleCoroutine(threadID), ct);
         }
 
         private IEnumerator ExampleCoroutine(int threadId)
@@ -134,20 +134,20 @@ namespace Baracuda.Threading.Demo
 
         private void StartCoroutineExampleWithException()
         {
-            Task.Run(CoroutineExampleWorkerWithException);
+            Task.Run(() => CoroutineExampleWorkerWithException(Dispatcher.RuntimeToken), Dispatcher.RuntimeToken);
         }
 
-        private async Task CoroutineExampleWorkerWithException()
+        private async Task CoroutineExampleWorkerWithException(CancellationToken ct)
         {
             // caching the current thread id
             var threadID = Thread.CurrentThread.ManagedThreadId;
 
             // simulating async work
-            await Task.Delay(1000);
+            await Task.Delay(1000, ct);
 
             try
             {
-                await Dispatcher.InvokeAsyncAwaitCompletion(ExampleCoroutineWithException(threadID));
+                await Dispatcher.InvokeAsyncAwaitCompletion(ExampleCoroutineWithException(threadID), ct);
             }
             catch (BehaviourDisabledException behaviourDisabledException)
             {
@@ -159,11 +159,11 @@ namespace Baracuda.Threading.Demo
             catch (Exception exception)
             {
                 Debug.LogError(exception);
-                await Dispatcher.InvokeAsync(() => coroutineExceptionText.text = $"{exception.GetType().Name} Occured!");
+                await Dispatcher.InvokeAsync(() => coroutineExceptionText.text = $"{exception.GetType().Name} Occured!", ct);
                 return;
             }
 
-            await Dispatcher.InvokeAsync(() => coroutineExceptionText.text = "Work Completed!");
+            await Dispatcher.InvokeAsync(() => coroutineExceptionText.text = "Work Completed!", ct);
         }
 
         private IEnumerator ExampleCoroutineWithException(int threadId)

@@ -121,6 +121,11 @@
             Enable / Disable execution of dispatched work during LateUpdate
             </summary>
         </member>
+        <member name="P:Baracuda.Threading.Dispatcher.EnableEditorUpdate">
+            <summary>
+            Enable / Disable execution of dispatched work during editor update
+            </summary>
+        </member>
         <member name="M:Baracuda.Threading.Dispatcher.Invoke(System.Action)">
             <summary>
             Dispatch the execution of an <see cref="T:System.Action"/> to the main thread.
@@ -270,6 +275,46 @@
             <param name="enumerator"><see cref="T:System.Collections.IEnumerator"/> that is started as a <see cref="T:UnityEngine.Coroutine"/>.</param>
             <param name="target"> the target <see cref="T:UnityEngine.MonoBehaviour"/> on which the coroutine will run.</param>
             <param name="cycle"> the execution cycle during which the passed <see cref="T:UnityEngine.Coroutine"/> is started.</param>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines">Documentation</a></footer>
+        </member>
+        <member name="M:Baracuda.Threading.Dispatcher.Invoke(System.Collections.IEnumerator,System.Threading.CancellationToken)">
+            <summary>
+            Dispatch an <see cref="T:System.Collections.IEnumerator"/> that will be started and executed as a <see cref="T:UnityEngine.Coroutine"/> on the main thread.
+            </summary>
+            <param name="enumerator"><see cref="T:System.Collections.IEnumerator"/> that is started as a <see cref="T:UnityEngine.Coroutine"/>.</param>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <param name="ct"> optional cancellation token that can be passed to abort the coroutine prematurely.</param>
+            <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines">Documentation</a></footer>
+        </member>
+        <member name="M:Baracuda.Threading.Dispatcher.Invoke(System.Collections.IEnumerator,Baracuda.Threading.ExecutionCycle,System.Threading.CancellationToken)">
+            <summary>
+            Dispatch an <see cref="T:System.Collections.IEnumerator"/> that will be started and executed as a <see cref="T:UnityEngine.Coroutine"/> on the main thread.
+            </summary>
+            <param name="enumerator"><see cref="T:System.Collections.IEnumerator"/> that is started as a <see cref="T:UnityEngine.Coroutine"/>.</param>
+            <param name="cycle"> the execution cycle during which the passed <see cref="T:UnityEngine.Coroutine"/> is started.</param>
+            <param name="ct"> optional cancellation token that can be passed to abort the coroutine prematurely.</param>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines">Documentation</a></footer>
+        </member>
+        <member name="M:Baracuda.Threading.Dispatcher.Invoke(System.Collections.IEnumerator,UnityEngine.MonoBehaviour,System.Threading.CancellationToken)">
+            <summary>
+            Dispatch an <see cref="T:System.Collections.IEnumerator"/> that will be started and executed as a <see cref="T:UnityEngine.Coroutine"/> on the main thread.
+            </summary>
+            <param name="enumerator"><see cref="T:System.Collections.IEnumerator"/> that is started as a <see cref="T:UnityEngine.Coroutine"/>.</param>
+            <param name="target"> the target <see cref="T:UnityEngine.MonoBehaviour"/> on which the coroutine will run.</param>
+            <param name="ct"> optional cancellation token that can be passed to abort the coroutine prematurely.</param>
+            <exception cref="T:System.InvalidCastException"></exception>
+            <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines">Documentation</a></footer>
+        </member>
+        <member name="M:Baracuda.Threading.Dispatcher.Invoke(System.Collections.IEnumerator,Baracuda.Threading.ExecutionCycle,UnityEngine.MonoBehaviour,System.Threading.CancellationToken)">
+            <summary>
+            Dispatch an <see cref="T:System.Collections.IEnumerator"/> that will be started and executed as a <see cref="T:UnityEngine.Coroutine"/> on the main thread.
+            </summary>
+            <param name="enumerator"><see cref="T:System.Collections.IEnumerator"/> that is started as a <see cref="T:UnityEngine.Coroutine"/>.</param>
+            <param name="target"> the target <see cref="T:UnityEngine.MonoBehaviour"/> on which the coroutine will run.</param>
+            <param name="cycle"> the execution cycle during which the passed <see cref="T:UnityEngine.Coroutine"/> is started.</param>
+            <param name="ct"> optional cancellation token that can be passed to abort the coroutine prematurely.</param>
             <exception cref="T:System.InvalidCastException"></exception>
             <footer><a href="https://johnbaracuda.com/dispatcher.html#coroutines">Documentation</a></footer>
         </member>
@@ -1375,6 +1420,12 @@
             <summary>
             <see cref="T:System.Delegate"/> is executed at the beginning of the next FixedUpdate call.
             </summary>
+        </member>
+        <member name="F:Baracuda.Threading.ExecutionCycle.EditorUpdate">
+            <summary>
+            <see cref="T:System.Delegate"/> is executed at the beginning of the next editor update call.
+            </summary>
+            <footer><a href="https://docs.unity3d.com/ScriptReference/EditorApplication-update.html">Documentation</a></footer>
         </member>
     </members>
 </doc>
