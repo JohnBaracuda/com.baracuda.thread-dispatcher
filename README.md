@@ -4,7 +4,6 @@ Thread Dispatcher is an open source tool to pass the execution of a Delegate, Co
 
 • [Detailed Documentation](https://johnbaracuda.com/dispatcher.html)  
 • [Asset Store](https://assetstore.unity.com/packages/slug/202421)  
-• [Download (2.0.1)](https://download.johnbaracuda.com/Dispatcher.unitypackage)  
 
 
 ### Example
