@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Baracuda.Threading.Coroutines;
+using System;
 using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
-using Baracuda.Threading.Internal;
 using Baracuda.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -47,17 +47,17 @@ namespace Baracuda.Threading.Demo
         {
             // caching the current thread id
             var threadID = Thread.CurrentThread.ManagedThreadId;
-            
+
             // simulating async work
             await Task.Delay(1000);
-            
-            
+
+
             await Dispatcher.InvokeAsync(() =>
             {
                 actionText.text = $"Dispatched from Thread: {threadID:00}";
             });
         }
-        
+
         #endregion
 
         //--------------------------------------------------------------------------------------------------------------
@@ -73,12 +73,12 @@ namespace Baracuda.Threading.Demo
         {
             // caching the current thread id
             var threadID = Thread.CurrentThread.ManagedThreadId;
-            
+
             // simulating async work
             await Task.Delay(1000);
-            
+
             var dispatcherName = await Dispatcher.InvokeAsync(() => FindObjectOfType<Example>().gameObject.name);
-            
+
             // simulating async work
             await Task.Delay(1000);
 
@@ -88,7 +88,7 @@ namespace Baracuda.Threading.Demo
                                 $"Dispatched from thread: {threadID:00}";
             });
         }
-        
+
         #endregion
 
         //--------------------------------------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ namespace Baracuda.Threading.Demo
         {
             // caching the current thread id
             var threadID = Thread.CurrentThread.ManagedThreadId;
-            
+
             // simulating async work
             await Task.Delay(1000);
 
@@ -118,16 +118,16 @@ namespace Baracuda.Threading.Demo
             {
                 yield return new WaitForSeconds(.5f);
                 coroutineText.text = $"Working: {++value:000}% Completed | Dispatched from thread: {threadId:00}";
-                
+
                 if (value >= 100)
                 {
                     break;
                 }
             }
         }
-        
+
         #endregion
-        
+
         //--------------------------------------------------------------------------------------------------------------
 
         #region --- Example: Coroutine ---
@@ -141,7 +141,7 @@ namespace Baracuda.Threading.Demo
         {
             // caching the current thread id
             var threadID = Thread.CurrentThread.ManagedThreadId;
-            
+
             // simulating async work
             await Task.Delay(1000);
 
@@ -178,16 +178,16 @@ namespace Baracuda.Threading.Demo
                 {
                     throw new InvalidOperationException("This Exception is thrown inside a Coroutine!");
                 }
-                
+
                 if (value >= 100)
                 {
                     break;
                 }
             }
         }
-        
+
         #endregion
-        
+
         //--------------------------------------------------------------------------------------------------------------
 
         #region --- Example: Task ---
@@ -203,7 +203,7 @@ namespace Baracuda.Threading.Demo
             {
                 // caching the current thread id
                 var threadID = Thread.CurrentThread.ManagedThreadId;
-            
+
                 // simulating async work
                 await Task.Delay(2000, ct);
                 Debug.Log("Start");
@@ -226,12 +226,12 @@ namespace Baracuda.Threading.Demo
         private async Task<int> TaskExampleMainThread(CancellationToken ct)
         {
             var random = Random.Range(1000, 2000);
-            
+
             await Task.Delay(random, ct);
-            
+
             return SceneManager.GetActiveScene().GetRootGameObjects().Length;
         }
-        
+
         #endregion
     }
 }
