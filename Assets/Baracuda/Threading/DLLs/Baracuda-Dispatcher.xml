@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Assembly-Baracuda-Dispatcher</name>
+        <name>Baracuda-Dispatcher</name>
     </assembly>
     <members>
         <member name="T:Baracuda.Threading.Coroutines.BehaviourDisabledException">
@@ -87,7 +87,7 @@
         </member>
         <member name="M:Baracuda.Threading.Dispatcher.Validate">
              <summary>
-             Ensure that a <see cref="T:Baracuda.Threading.Dispatcher"/> instance exists and return it.
+             Ensure that a <see cref="T:Baracuda.Threading.Dispatcher"/> instance exists.
              </summary>
              <returns></returns>
             <footer><a href="https://johnbaracuda.com/dispatcher.html#miscellaneous">Documentation</a></footer>
@@ -123,7 +123,8 @@
         </member>
         <member name="P:Baracuda.Threading.Dispatcher.EnableEditorUpdate">
             <summary>
-            Enable / Disable execution of dispatched work during editor update
+            Enable / Disable execution of dispatched work during editor update<b/>
+            This property is editor only!
             </summary>
         </member>
         <member name="M:Baracuda.Threading.Dispatcher.Invoke(System.Action)">
@@ -539,7 +540,7 @@
         <member name="M:Baracuda.Threading.Dispatcher.StartCoroutineInternal(System.Collections.IEnumerator,Baracuda.Threading.Tasks.TaskCompletionSource,System.Threading.CancellationToken,System.Boolean,UnityEngine.MonoBehaviour)">
             <summary>
             Start an internal coroutine with cancellation support and exception handling.
-            </summary>
+            </summary>z
         </member>
         <member name="E:Baracuda.Threading.Dispatcher.Disabled">
             <summary>
@@ -548,7 +549,19 @@
         </member>
         <member name="P:Baracuda.Threading.Dispatcher.Current">
             <summary>
-            Get the current instance of <see cref="T:Baracuda.Threading.Dispatcher"/>. If no instance can be found a new object is created.
+            Get the current instance of <see cref="T:Baracuda.Threading.Dispatcher"/>. If no instance can be found a new object is created.<br/>
+            This property is only allowed to be accessed from the main thread!
+            </summary>
+        </member>
+        <member name="M:Baracuda.Threading.Dispatcher.GetOrCreateDispatcherInstance">
+            <summary>
+            Promises to return a valid dispatcher instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Baracuda.Threading.Dispatcher._throw">
+            <summary>
+            flag to determine if an invalid operation exception should be thrown when destroying the GameObject.
             </summary>
         </member>
         <member name="M:Baracuda.Threading.Dispatcher.Invoke(System.Func{System.Threading.Tasks.Task})">
