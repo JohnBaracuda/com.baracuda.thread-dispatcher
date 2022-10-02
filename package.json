@@ -4,9 +4,9 @@
   "displayName": "Thread Dispatcher",
   "description": "Pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.",
   "unity": "2019.4",
-  "documentationUrl": "https://github.com/JohnBaracuda/Thread-Dispatcher",
-  "changelogUrl": "https://github.com/JohnBaracuda/Thread-Dispatcher/releases",
-  "licensesUrl": "https://github.com/JohnBaracuda/Thread-Dispatcher/blob/main/LICENSE",
+  "documentationUrl": "https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher",
+  "changelogUrl": "https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher/releases",
+  "licensesUrl": "https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher/blob/main/LICENSE",
   "keywords": [
     "async",
     "thread",
