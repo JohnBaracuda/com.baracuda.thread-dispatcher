@@ -21,12 +21,13 @@
     {
       "displayName": "Thread Dispatcher Examples",
       "description": "Contains an example scene and script showcasing some basics of the tool.",
-      "path": "Samples~/DemoScene"
+      "path": "Samples/Example"
     }
   ],
   "author": {
     "name": "john baracuda",
     "email": "johnbaracudagames@gmail.com",
     "url": "https://johnbaracuda.com/"
-  }
+  },
+  "type": "tool"
 }
