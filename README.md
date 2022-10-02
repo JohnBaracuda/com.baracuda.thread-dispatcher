@@ -1,10 +1,28 @@
 # Thread Dispatcher
 Thread Dispatcher is an open source tool to pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.
 
+## Installation
 
-• [Detailed Documentation](https://johnbaracuda.com/dispatcher.html)  
-• [Asset Store](https://assetstore.unity.com/packages/slug/202421)  
+- Option 1. UPM git URL `https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher.git`
+    <details>
+    <summary>More details how to add a git URL with the package manager.</summary>
 
+   - open <kbd>Window/Package Manager</kbd>
+   - click <kbd>+</kbd>
+   - click <kbd>Add package from git URL</kbd>
+   - paste `https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher.git`
+   - click <kbd>Add</kbd>
+    </details>
+
+   
+- Option 2. Download <kbd>.unitypackage</kbd> from [Releases](https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher/releases)  
+   
+- Option 3. Download from [Asset Store](https://assetstore.unity.com/packages/slug/202421)  
+
+
+## How to use
+
+• [Detailed Documentation](https://johnbaracuda.com/dispatcher.html)
 
 ### Example
 ```c#
