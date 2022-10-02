@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Baracuda.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -214,7 +213,7 @@ namespace Baracuda.Threading.Demo
 
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    taskText.text = $"{result:00} GameObject were found at the scene root! | Dispatched from thread: {threadID:00}";
+                    taskText.text = $"Waited {result:00} ms on the main thread! | Dispatched from thread: {threadID:00}";
                 });
             }
             catch (Exception exception)
@@ -229,7 +228,7 @@ namespace Baracuda.Threading.Demo
 
             await Task.Delay(random, ct);
 
-            return SceneManager.GetActiveScene().GetRootGameObjects().Length;
+            return random;
         }
 
         #endregion
