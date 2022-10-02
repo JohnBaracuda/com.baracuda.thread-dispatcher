@@ -21,7 +21,7 @@
     {
       "displayName": "Thread Dispatcher Examples",
       "description": "Contains an example scene and script showcasing some basics of the tool.",
-      "path": "Samples/Example"
+      "path": "Samples~/Example"
     }
   ],
   "author": {
