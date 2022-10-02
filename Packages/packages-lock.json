@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.baracuda.thread-dispatcher": {
+      "version": "file:ThreadDispatcher",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.asset-store-tools": {
       "version": "file:com.unity.asset-store-tools",
       "depth": 0,

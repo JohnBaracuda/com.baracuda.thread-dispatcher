@@ -1,0 +1,33 @@
+{
+  "name": "com.baracuda.thread-dispatcher",
+  "version": "3.1.0",
+  "displayName": "Thread Dispatcher",
+  "description": "Pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.",
+  "unity": "2019.4",
+  "documentationUrl": "https://github.com/JohnBaracuda/Thread-Dispatcher",
+  "changelogUrl": "https://github.com/JohnBaracuda/Thread-Dispatcher/releases",
+  "licensesUrl": "https://github.com/JohnBaracuda/Thread-Dispatcher/blob/main/LICENSE",
+  "keywords": [
+    "async",
+    "thread",
+    "sourcecode",
+    "coroutine",
+    "dispatch",
+    "utility",
+    "tool",
+    "task"
+  ],
+  "samples": [
+    {
+      "displayName": "Thread Dispatcher Examples",
+      "description": "Contains an example scene and script showcasing some basics of the tool.",
+      "path": "Samples~/DemoScene"
+    }
+  ],
+  "author": {
+    "name": "john baracuda",
+    "email": "johnbaracudagames@gmail.com",
+    "url": "https://johnbaracuda.com/"
+  },
+  "type": "tool"
+}
