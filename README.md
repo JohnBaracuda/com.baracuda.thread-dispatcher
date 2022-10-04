@@ -1,6 +1,8 @@
 # Thread Dispatcher
 Thread Dispatcher is an open source tool to pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.
 
+[![openupm](https://img.shields.io/npm/v/com.baracuda.thread-dispatcher?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.baracuda.thread-dispatcher/)
+
 ## Installation
 
 - Option 1. UPM git URL `https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher.git`
