@@ -1,6 +1,6 @@
 {
   "name": "com.baracuda.thread-dispatcher",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "displayName": "Thread Dispatcher",
   "description": "Pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.\n\nNote: when updating Major versions of Thread Dispatcher from the Package Manager, don't forget to remove the old version from the project before importing the new one! :)",
   "unity": "2019.4",
@@ -21,9 +21,14 @@
   ],
   "samples": [
     {
-      "displayName": "Thread Dispatcher Examples",
-      "description": "Contains an example scene and script showcasing some basics of the tool.",
+      "displayName": "Examples",
+      "description": "Contains an example scene and an example script.",
       "path": "Samples~/Example"
+    },
+    {
+      "displayName": "Source Code",
+      "description": "Contains a zip file that includes the source code.",
+      "path": "Samples~/Source"
     }
   ],
   "author": {

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.1] - 2022-10-09
+### Changed
+- Made source code more accessible by moving it to samples.
+
 ## [4.0.0]
 ### Changed
 - Created a UPM Package and moved contents into said package. [Repositiony](https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher).

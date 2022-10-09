@@ -1,26 +1,43 @@
 # Thread Dispatcher
 Thread Dispatcher is an open source tool to pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.
 
-[![openupm](https://img.shields.io/npm/v/com.baracuda.thread-dispatcher?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.baracuda.thread-dispatcher/)
+&nbsp;
+## Installation and Updates
 
-## Installation
+### Option 1. **Install via Open UPM (recommended)** [![openupm](https://img.shields.io/npm/v/com.baracuda.thread-dispatcher?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.baracuda.thread-dispatcher/)
 
-- Option 1. UPM git URL `https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher.git`
-    <details>
-    <summary>More details how to add a git URL with the package manager.</summary>
+- open <kbd>Edit/Project Settings/Package Manager</kbd>
+- add a new Scoped Registry:
 
-   - open <kbd>Window/Package Manager</kbd>
-   - click <kbd>+</kbd>
-   - click <kbd>Add package from git URL</kbd>
-   - paste `https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher.git`
-   - click <kbd>Add</kbd>
-    </details>
+    - Name: OpenUPM
+    - URL:  https://package.openupm.com
+    - Scope(s): com.baracuda
 
-   
-- Option 2. Download <kbd>.unitypackage</kbd> from [Releases](https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher/releases)  
-   
-- Option 3. Download from [Asset Store](https://assetstore.unity.com/packages/slug/202421)  
+- click <kbd>Save</kbd>
+- open <kbd>Window/Package Manager</kbd>
+- click <kbd>+</kbd>
+- click <kbd>Add package by name...</kbd>
+- paste and <kbd>Add</kbd>  `com.baracuda.thread-dispatcher`
+- take a look at [Setup](#customized-setup) to see what comes next
 
+#### Option 2. Install via Git URL
+
+- open <kbd>Window/Package Manager</kbd>
+- click <kbd>+</kbd>
+- click <kbd>Add package from git URL</kbd>
+- paste and <kbd>Add</kbd> `https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher.git`
+- take a look at [Setup](#customized-setup) to see what comes next
+
+#### Option 3. Get Thread Dispatcher from the [Asset Store](https://assetstore.unity.com/packages/slug/202421)
+
+
+#### Option 4. Download a <kbd>.unitypackage</kbd> from [Releases](https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher/releases)
+
+&nbsp;
+
+> If you like thread dispatcher, consider leaving a good review on the Asset Store regardless of which installation method you chose :)
+
+&nbsp;
 
 ## How to use
 
