@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.1.0] - 2022-10-11
+### Changed
+- Changed API compatibility from .NET4.71 to netstandart2.0
+
+
 ## [4.0.1] - 2022-10-09
 ### Changed
 - Made source code more accessible by moving it to samples.
