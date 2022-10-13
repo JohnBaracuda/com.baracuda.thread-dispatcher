@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.0] - 2022-10-13
+### Changed
+- Thread Dispatcher no longer has a custom DLL but is full source code. Building a custom DLL for the package caused several compatibility issues, and the need for a custom DLL is gone since thread dispatcher became a hybrid UPM package and is therefore read-only.
+
+
 ## [4.1.0] - 2022-10-11
 ### Changed
 - Changed API compatibility from .NET4.71 to netstandart2.0
