@@ -8,20 +8,28 @@ Thread Dispatcher is an open source tool to pass the execution of a Delegate, Co
 - [Installation](#installation)
 - [Quick Guide](#quick-guide)
 - [Dispatch a System.Action](#dispatch-an-action)
-    - [Awaiting a dispatched System.Action](#awaiting-a-dispatched-action)
+    - [Await a dispatched System.Action](#awaiting-a-dispatched-action)
     - [Cancellation of a dispatched Action](#cancellation-of-a-dispatched-action)
     - [Extension Methods for Actions](#extension-methods-for-actions)
-- [Dispatch and await a System.Func&#60;T&#62;](#dispatch-and-await-a-func)
+- [Dispatch a System.Func&#60;T&#62;](#dispatch-and-await-a-func)
+    - [Await a dispatcher System.Func&#60;T&#62;](#dispatch-and-await-a-func)
     - [Cancellation of a dispatched System.Func&#60;T&#62;](#cancellation-of-a-dispatched-func)
     - [Extension Methods for System.Func&#60;T&#62;](#extension-methods-for-func)
-- [Dispatch Coroutines](#preprocessor-definition-settings)
-- [Dispatch Tasks](#preprocessor-definition-settings)
-- [Execution Cycle]
+- [Dispatch Coroutines](#coroutines)
+    - [Await a dispatched Coroutine](#awaiting-a-dispatched-coroutine)
+    - [Await the start of a Coroutine](#await-the-start-of-a-coroutine)
+    - [Await the completion of a Coroutine](#await-the-completion-of-a-coroutine)
+    - [Extension Methods for Coroutines](#extension-methods-for-coroutines)
+- [Dispatch Tasks](#task)
+    - [Await a dispatched Task](#awaiting-a-dispatched-task)
+    - [Await a dispatched Task&#60;TResult&#62;](#awaiting-a-dispatched-task-tresult)
+    - [Extension Methods for Task and Task&#60;TResult&#62;](#extension-methods-for-task-and-task-tresult)
+- [Execution Cycle](#execution-cycle)
 - [Miscellaneous](#miscellaneous)
 - [Support Me ❤️](#support-me)
 
 &nbsp;
-## Installation and Updates
+## Installation
 
 ### Option 1. **Install via Open UPM (recommended)** [![openupm](https://img.shields.io/npm/v/com.baracuda.thread-dispatcher?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.baracuda.thread-dispatcher/)
 
@@ -60,9 +68,6 @@ Thread Dispatcher is an open source tool to pass the execution of a Delegate, Co
 
 ## Quick Guide
 
-• [Detailed Documentation](https://johnbaracuda.com/dispatcher.html)
-
-### Example
 ```c#
 // Task is running on a background thread.
 public async Task  WorkerTask()  
@@ -325,48 +330,14 @@ public static Task DispatchAsync(this Action action, CancellationToken ct, bool 
 public static Task DispatchAsync(this Action action, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true);
 ```
 
-
-
-
-
-
 &nbsp;
-## Miscellaneous
-
-You can use the Dispatcher to validate if a method is currently running on the main thread or not by calling Dispatcher.IsMainThread(). This method will return true if it is called from the main thread.
-```c#
-// It is unknown if the task is executed on the main thread or not.
-
-public Task WorkerTask()
-{
-    if(Dispatcher.IsMainThread() == true)
-    {
-        // Work() can be called directly because the current execution is already happening on the main thread.
-        Work();
-    }
-    else
-    {
-        // Work() must first be dispatched to the main thread and will be called during the next available
-        // Update() or Tick() cycle.
-        Dispatcher.Invoke(Work);
-    }
-
-    return Task.CompletedTask;
-}
-
-private void Work()
-{
-    // Logic here is only allowed to be executed on the main thread!
-}
-
-```
-
+# Func&#60;TResultResult&#62;
 
 
 &nbsp;
 ## Dispatch and await a Func
 
-Dispatch a Func<TResult> to the main thread and await its result on the calling thread using Dispatcher.InvokeAsync(Func<TResult> func). This method returns a Task<TResult> object which yields the result of the delegate. Pass in an optional ExecutionCycle argument when calling this method to determine when the delegate will be executed.
+Dispatch a Func&#60;TResultResult&#62; to the main thread and await its result on the calling thread using Dispatcher.InvokeAsync(Func&#60;TResultResult&#62; func). This method returns a Task&#60;TResultResult&#62; object which yields the result of the delegate. Pass in an optional ExecutionCycle argument when calling this method to determine when the delegate will be executed.
 
 > ⚠️ Exceptions thrown in a dispatched delegate are returned to the calling thread when awaited! If those exceptions are not handled within the passed delegate itself or on the calling thread, this will result in the thread being cancelled without notice.
 
@@ -472,6 +443,34 @@ public static Task<TResult> DispatchAsync(this Func<TResult> func);
 public static Task<TResult> DispatchAsync(this Func<TResult> func, ExecutionCycle cycle);
 public static Task<TResult> DispatchAsync(this Func<TResult> func, CancellationToken ct);
 public static Task<TResult> DispatchAsync(this Func<TResult> func, ExecutionCycle cycle, CancellationToken ct);
+```
+
+
+&nbsp;
+# Coroutines
+You can dispatch an IEnumerator to be executed as a Coroutine on the main thread. You can determine the target MonoBehaviour on which the Coroutine will run. If no target MonoBehaviour is passed, the coroutine will run on the Dispatcher Scene Component.
+
+```c#
+public static void Invoke(IEnumerator enumerator);
+public static void Invoke(IEnumerator enumerator, MonoBehaviour target);
+public static void Invoke(IEnumerator enumerator, ExecutionCycle cycle);
+public static void Invoke(IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target);
+```
+
+```c#
+public Task WorkerTask()
+{
+    Dispatcher.Invoke(ExampleCoroutine());
+
+    return Task.CompletedTask;
+}
+
+// Coroutines can only run on the main thread.
+private IEnumerator ExampleCoroutine()
+{
+    yield return null;
+    // ...
+}
 ```
 
 
@@ -656,6 +655,205 @@ public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, Exe
 public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct, bool throwExceptions = true);
 public static Task DispatchAsyncAwaitCompletion(this IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct, bool throwExceptions = true);
 ```
+
+# Task
+
+Dispatch work encapsulated in a Func&#60;Task&#62; which is then preformed on the main thread. When passing in an optional CancellationToken ct, it is forwarded to the Task wrapped in function which must accept it as an argument.
+
+```c#
+public static void Invoke(Func<Task> function);
+public static void Invoke(Func<Task> function, ExecutionCycle cycle);
+public static void Invoke(Func<CancellationToken, Task> function, CancellationToken ct, bool throwOnCancellation = true);
+public static void Invoke(Func<CancellationToken, Task> function, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true);
+```
+
+```c#
+// Provides cancellation token.
+private CancellationTokenSource cts = new CancellationTokenSource();
+
+// Running on a background thread.
+public Task WorkerTask()
+{
+    // The cancellation token from cts is passed along to MainThreadTask
+    // when it is run on the main thread.
+    Dispatcher.Invoke(MainThreadTask, cts.Token);
+
+    // using cts.Cancel() will cancel the work done by MainThreadTask.
+}
+
+// Running on the main thread.
+private async Task MainThreadTask(CancellationToken ct)
+{
+    // Simulating async work on the main thread and returning a result.
+    await Task.Delay(300, ct);
+}
+```
+
+
+
+&nbsp;
+## Awaiting a dispatched Task
+
+Dispatch work encapsulated in a Func&#60;Task&#62; which is then preformed on the main thread. Await the completion of the passed operation by awaiting the Task handle returned by the method call. When passing in an optional CancellationToken ct, it is forwarded to the Task wrapped in function which must accept it as an argument.
+
+> ⚠️  Exceptions thrown in a dispatched task are returned to the calling thread if the completion or the result of the dispatched work is awaited! If those exceptions are not handled within the passed task itself this will result in the thread being cancelled without notice.
+
+```c#
+public static Task InvokeAsync(Func<Task> function);
+public static Task InvokeAsync(Func<Task> function, ExecutionCycle cycle);
+public static Task InvokeAsync(Func<CancellationToken, Task> function, CancellationToken ct, bool throwOnCancellation = true);
+public static Task InvokeAsync(Func<CancellationToken, Task> function, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true);
+```
+
+```c#
+// Running on a background thread.
+public async Task WorkerTask(CancellationToken ct)
+{
+    try
+    {
+        // Perform and await work on the main thread.
+        await Dispatcher.InvokeAsync(MainThreadTask, cts.Token);
+
+        // ...
+    }
+    catch (OperationCanceledException canceledException)
+    {
+     // Task was canceled.
+    }
+    catch (Exception exception)
+    {
+        // Another exception occurred.
+    }
+}
+
+// Running on the main thread.
+private async Task MainThreadTask(CancellationToken ct)
+{
+    // Simulating async work on the main thread.
+    await Task.Delay(300, ct);
+}
+```
+
+
+&nbsp;
+## Awaiting a dispatched Task TResult
+
+Dispatch work encapsulated in a Func&#60;Task&#60;TResult&#62;&#62; which is then preformed on the main thread. Await the result of the passed operation by awaiting the Task&#60;TResult&#62; handle returned by the method call. When passing in an optional CancellationToken ct, it is forwarded to the Task wrapped in function which must accept it as an argument.
+
+> ⚠️  Exceptions thrown in a dispatched task are returned to the calling thread if the completion or the result of the dispatched work is awaited! If those exceptions are not handled within the passed task itself this will result in the thread being cancelled without notice.
+
+```c#
+public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> function);
+public static Task<TResult> InvokeAsync<TResult>(Func<Task<TResult>> function, ExecutionCycle cycle);
+public static Task<TResult> InvokeAsync<TResult>(Func<CancellationToken, Task<TResult>> function, CancellationToken ct, bool throwOnCancellation = true);
+public static Task<TResult> InvokeAsync<TResult>(Func<CancellationToken, Task<TResult>> function, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true);
+```
+
+```c#
+// Running on a background thread.
+public async Task WorkerTask(CancellationToken ct)
+{
+    try
+    {
+        // Perform and await work on the main thread.
+        int result = await Dispatcher.InvokeAsync(MainThreadTask, cts.Token);
+
+        // Do something with result.
+    }
+    catch (OperationCanceledException canceledException)
+    {
+        // Task was canceled.
+    }
+    catch (Exception exception)
+    {
+        // Another exception occurred.
+    }
+}
+
+// Running on the main thread.
+private async Task<int> MainThreadTask(CancellationToken ct)
+{
+    // Simulating async work on the main thread and return a result.
+    await Task.Delay(300, ct);
+    return 1337;
+}
+```
+
+
+&nbsp;
+## Extension Methods for Task and Task TResult
+
+```c#
+public static void Invoke(this Func<Task> function);
+public static void Invoke(this Func<Task> function, ExecutionCycle cycle);
+public static void Invoke(this Func<CancellationToken, Task> function, CancellationToken ct, bool throwOnCancellation = true);
+public static void Invoke(this Func<CancellationToken, Task> function, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true);
+
+public static Task InvokeAsync(this Func<Task> function);
+public static Task InvokeAsync(this Func<Task> function, ExecutionCycle cycle);
+public static Task InvokeAsync(this Func<CancellationToken, Task> function, CancellationToken ct, bool throwOnCancellation = true);
+public static Task InvokeAsync(this Func<CancellationToken, Task> function, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true);
+
+public static Task<TResult> InvokeAsync<TResult>(this Func<Task<TResult>> function);
+public static Task<TResult> InvokeAsync<TResult>(this Func<Task<TResult>> function, ExecutionCycle cycle);
+public static Task<TResult> InvokeAsync<TResult>(this Func<CancellationToken, Task<TResult>> function, CancellationToken ct, bool throwOnCancellation = true);
+public static Task<TResult> InvokeAsync<TResult>(this Func<CancellationToken, Task<TResult>> function, ExecutionCycle cycle, CancellationToken ct, bool throwOnCancellation = true);
+```
+
+
+&nbsp;
+## Execution Cycle
+You can determine the exact execution cycle in which a passed delegate or coroutine is invoked on the main thread by passing an optional ExecutionCycle argument when dispatching it.
+
+```c#
+public enum ExecutionCycle
+{
+    // Executed at the beginning of the next Update call.
+    Update = 1,
+    // Executed at the beginning of the next LateUpdate call.
+    LateUpdate = 2,
+    // Executed at the beginning of the next FixedUpdate call.
+    FixedUpdate = 3,
+
+#if UNITY_EDITOR
+    // Executed at the beginning of the next editor update call.
+    EditorUpdate = 5,
+#endif
+}
+```
+
+
+&nbsp;
+## Miscellaneous
+
+You can use the Dispatcher to validate if a method is currently running on the main thread or not by calling Dispatcher.IsMainThread(). This method will return true if it is called from the main thread.
+```c#
+// It is unknown if the task is executed on the main thread or not.
+
+public Task WorkerTask()
+{
+    if(Dispatcher.IsMainThread() == true)
+    {
+        // Work() can be called directly because the current execution is already happening on the main thread.
+        Work();
+    }
+    else
+    {
+        // Work() must first be dispatched to the main thread and will be called during the next available
+        // Update() or Tick() cycle.
+        Dispatcher.Invoke(Work);
+    }
+
+    return Task.CompletedTask;
+}
+
+private void Work()
+{
+    // Logic here is only allowed to be executed on the main thread!
+}
+
+```
+
 
 
 &nbsp;
