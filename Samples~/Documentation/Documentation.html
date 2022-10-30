@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Documentation.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="thread-dispatcher">Thread Dispatcher</h1>
+<p>Thread Dispatcher is an open source tool to pass the execution of a Delegate, Coroutine or Task from a background thread to the main thread, and await its completion or result on the calling thread as needed.</p>
+<p> </p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#quick-guide">Quick Guide</a></li>
+<li><a href="#dispatch-an-action">Dispatch a System.Action</a>
+<ul>
+<li><a href="#awaiting-a-dispatched-action">Await a dispatched System.Action</a></li>
+<li><a href="#cancellation-of-a-dispatched-action">Cancellation of a dispatched Action</a></li>
+<li><a href="#extension-methods-for-actions">Extension Methods for Actions</a></li>
+</ul>
+</li>
+<li><a href="#dispatch-and-await-a-func">Dispatch a System.Func&lt;T&gt;</a>
+<ul>
+<li><a href="#dispatch-and-await-a-func">Await a dispatcher System.Func&lt;T&gt;</a></li>
+<li><a href="#cancellation-of-a-dispatched-func">Cancellation of a dispatched System.Func&lt;T&gt;</a></li>
+<li><a href="#extension-methods-for-func">Extension Methods for System.Func&lt;T&gt;</a></li>
+</ul>
+</li>
+<li><a href="#coroutines">Dispatch Coroutines</a>
+<ul>
+<li><a href="#awaiting-a-dispatched-coroutine">Await a dispatched Coroutine</a></li>
+<li><a href="#await-the-start-of-a-coroutine">Await the start of a Coroutine</a></li>
+<li><a href="#await-the-completion-of-a-coroutine">Await the completion of a Coroutine</a></li>
+<li><a href="#extension-methods-for-coroutines">Extension Methods for Coroutines</a></li>
+</ul>
+</li>
+<li><a href="#task">Dispatch Tasks</a>
+<ul>
+<li><a href="#awaiting-a-dispatched-task">Await a dispatched Task</a></li>
+<li><a href="#awaiting-a-dispatched-task-tresult">Await a dispatched Task&lt;TResult&gt;</a></li>
+<li><a href="#extension-methods-for-task-and-task-tresult">Extension Methods for Task and Task&lt;TResult&gt;</a></li>
+</ul>
+</li>
+<li><a href="#execution-cycle">Execution Cycle</a></li>
+<li><a href="#miscellaneous">Miscellaneous</a></li>
+<li><a href="#support-me">Support Me ❤️</a></li>
+</ul>
+<p> </p>
+<h2 id="installation">Installation</h2>
+<h3 id="option-1-install-via-open-upm-recommended-openupm">Option 1. <strong>Install via Open UPM (recommended)</strong> <a href="https://openupm.com/packages/com.baracuda.thread-dispatcher/"><img src="https://img.shields.io/npm/v/com.baracuda.thread-dispatcher?label=openupm&amp;registry_uri=https://package.openupm.com" alt="openupm"></a></h3>
+<ul>
+<li>
+<p>open <kbd>Edit/Project Settings/Package Manager</kbd></p>
+</li>
+<li>
+<p>add a new Scoped Registry:</p>
+<ul>
+<li>Name: OpenUPM</li>
+<li>URL:  https://package.openupm.com</li>
+<li>Scope(s): com.baracuda</li>
+</ul>
+</li>
+<li>
+<p>click <kbd>Save</kbd></p>
+</li>
+<li>
+<p>open <kbd>Window/Package Manager</kbd></p>
+</li>
+<li>
+<p>click <kbd>+</kbd></p>
+</li>
+<li>
+<p>click <kbd>Add package by name...</kbd></p>
+</li>
+<li>
+<p>paste and <kbd>Add</kbd>  <code>com.baracuda.thread-dispatcher</code></p>
+</li>
+<li>
+<p>take a look at <a href="#customized-setup">Setup</a> to see what comes next</p>
+</li>
+</ul>
+<h4 id="option-2-install-via-git-url">Option 2. Install via Git URL</h4>
+<ul>
+<li>open <kbd>Window/Package Manager</kbd></li>
+<li>click <kbd>+</kbd></li>
+<li>click <kbd>Add package from git URL</kbd></li>
+<li>paste and <kbd>Add</kbd> <code>https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher.git</code></li>
+<li>take a look at <a href="#customized-setup">Setup</a> to see what comes next</li>
+</ul>
+<h4 id="option-3-get-thread-dispatcher-from-the-asset-store">Option 3. Get Thread Dispatcher from the <a href="https://assetstore.unity.com/packages/slug/202421">Asset Store</a></h4>
+<h4 id="option-4-download-a-kbdunitypackagekbd-from-releases">Option 4. Download a <kbd>.unitypackage</kbd> from <a href="https://github.com/JohnBaracuda/com.baracuda.thread-dispatcher/releases">Releases</a></h4>
+<p> </p>
+<blockquote>
+<p>If you like thread dispatcher, consider leaving a good review on the Asset Store regardless of which installation method you chose <img class="emoji" alt="smiley" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAWaUlEQVR4Xu2bebAlV33fP79zum/fe9+99+3z3qyaGc0iCQ3LzEhIMpalICQKx0JYyEAkgTEJlAtX4qLKdhHsgBIndoWYONj8gR0gWAI5BoPAC7KQUyJG20gapAgxZvbhzfZm3r7crfuck+5TXdXFvEUjBymqsk/Vd86dmdPn/j7f/p2tXz9xzvGPuSj+UZd/MuCfDAh4mcs9Iuquu9gaOHaheI0I2wRGlZY+HFUAhKY1bsbBWec4jOWFRHj+vvs4+nHnLC9jeVkmQUnLsbu52gm3hpqbVShX6FBVVUmhSoIoAS0AhYzDWYftZrKY2DZt7H4QGx4Sxze33Ms+l5ZXtQHP3CrVwT5+QWl+qVRWP6UrSqmqRkUZuEOURbRLJSAXGOAczmQSnFXYrmA7Fts0mJa13bZ91Bo+PznDn+35pmu+quaAR26U4Ph75RdHhuXJakN/oWc0+ulofaSidQHRsKM0rCmNDlHe9nqiK28h2vNeytf8MpXr/o1X+tn/W/p/vk3aNrvGX+v7SPvK+sz6zr4j+67sO18VGXDwTrm6HPKfyjX95qA3IGhoJDKockDQtxE1+gbUyB6ktg0pD0BQBdEgAA4AEHCAM5A0ce0p3MJh7Pgz2LPfI5kZw7YTXEeTzBmS2YT2gvnbdsy/3fElt+//iwGSlqN38pFyVe4p9Yc9ui9M2SyqGhCM7EJfcjNq+GqoDORwCWAhNxwBHMt8FkCBBCBAawp7fh/mxEMk489jmwlJU2FmYrrT8WK76T6+9Ut8yqXllTDAgz99B43hCn9Yruu7wqESQa9GVwzBmh3obbej1lwDQRlcF5xBRPEPKc7ZPFtKkLSx557AHP5zknMHMS1NMmuIJ7q0581951v8yt6vMOeNeJkM8PD7b2XtwABfqvYGN4QjKXxdCGppfektqM23I1Ef2DYCSyc6uVhylk6QAKqM68xgj6cmHPkbkoUuybwjHu/SnE0emZrizt3f5MxLMSF4qfBDAzxQHgyvioYjdB2C/n6Cy9+DGvlpcDGSzILIamAvXQ4EIOmA1uhtdyL1TciB+xE1jVJlCDo3KOIH0hhvE5GLNiG4WPgHb6E/hb/fw49m8ELYP0jwmg8g/ZcjZhaQJWP7J1IKFMQBNFFrriYM68gLnwM9SaQjgKuGiO9PY32HiExfjAnBxcAD6rJRPl3uD66P1kTohkrh+wguvxvV2AzxNIgq4HnZDCgywrSQxmaCK+6GA18EmSGyEVh3/WUu+TTwPhGxL2ZCcDHwB+/iI5WGvjNcUyLo0wT1tN76s0htIyQzHh63DHBUgkBDqwPW8pKKUlCJIDHQ6S5vSNLOYvCxcPCrCF2sLVFJ3J0H7zLP7biPTxUmvKRJsIB/7A72bO6X/1VeX+4pDUcEDQg2vgm1/iYgARGE5eBDnt9/mB8eOs0/f+teyrWyh7moEmjaC23+8sGn2bl9Hbt2b4NOvMQEB+DZAuyph0nGvksyB93zHdqn2ovHp90/u+4rPAOsaEKwGvzdI5TX1/lkNBj2hP0hQU2h+0dRQ28Auwg4JKdHfhz+hf2H+K3f/AJTkx0OHjjEb3z03WgsWFYvCkyi+NR//VMe/NZzDAxG/Mfffj+vef3WHzfBgeA8P4iPSS8cBXsWl4S4tulZn3Q/mTK87d5x2kUmXNwQEEB97CbeVanp64MUXtdCVEWhBq8ErcA0EVl+qbOdDv/zyw/RCDpsujTk2Sef46lHL+ean7kCWl1WLaUST33neX/N69NrZxZ8X3zi8rtQ1oJbksJ4LB2gBnfhmufRiRD0GyqL5vqP3WTede+XuBdwwIsZUKT+R6+m0RPJr3v4eqqyoGpDSHUUzAIiDpwsTf1Qc/zQec786BSXDIdEocLE8MRjz3PNdZvBxeBWsT1OfNvhGqxpKHorYdZX2ucYW7cPQ2wAlmaCFaQ64mPU8XlsPfQm9CzYX//o1e4bv7OPWRFxWXmxDFCAfs82bo8aemfQCFCVVJFCautBHGKbK6/1UYnDh04S2A6NckQYCAP1gNNjZ2nNzFKpKjArOKAlbdPM2vprapEQacXEbMf3uXVnL5juSpMZTgIfo2pO+piz2KNGsvM925LbUwO+CDjALG9AcffljQNE9bJ8IGhoVE+ALiskipByL2JbgIUV+Iktp0+fpxIKoU6loFJSzC02GT83xebN9ZVXBK3SNvN0mk36epS/Fi1ZX75P4jbY7iqbpRiyGKMIHXewPf5wRn3OfOCNA+5Pn5zCSJ4GK2WAAPp3r2d3pSp7dS1AlTWqpJBSBVEBmBaIA1Y2YHZ6nigUtAIleCOcSZidmQNXAmNWmv2zNr5tqBVKvCdZX75Pb4BZZQ5xksXoY1Wl2MeeMVSq8d7fvd7tvvEBHgcssKIB3vORmro1rGn/MEOXNBIoCCIgWX0MA1hLu90m0IIIXkrhodutRaABNmb5Evo2GINSKr+erC/fJ7bIgJUlPlYJlI/dVDUZy0iNW8HuAwxgCwMumPy29hNWyu5G8U9yNBIqJBCUDsB2eNF1zBp/B5UIQu6qgADOxjlEsvK1Nkbya4D8s88gsK3CvBWlfKw2EB+7Z6hqKuXkxozt6DRJMQwguHDp+/getkZl2akrGilpVGaA1oDxBuBWMECKk1sUBTQdRXGgAkUYxBDPpUqKTCwwIQiyNr4tDii69H3iukUGrLiSKMD4mFXoPEPGkjF9fI/b+r6HOZCzLmuA3lhnVxCpin+OFwjoPA9dB2yTFTf8LpP17WoNmLQFg3UQhJpaeQoWZyC2yxAIWJW2sb6tdQWntfg+cfNgbA4JwNJYnPMxID52z5CxZEwb63YXcDCHYNkM6KuoK3QkSJhKK0SJFy6GZB5U+YL9qAEbg8tkQMOaYcth42PxSgyEkWKwX3mAFU9KxmZtfNvE2Px6iI3vE+Jx6AKiQUJQqUQXPJBnaZzHnTOEQsaUsYH9+koGqExR4C6VQOHhtYBSxZqfLIJ0QVQBnwlHEYBm44YII4KxDqWETtfSP1qmvxFAe5UxbPFt+odKtM42sRXt+zAivk8sxXfSBSMgujDBWQ8P5LOvZ/AsGVMUJJeScxYGUKz/gA6FNeSpL5LDowpG1y0ARJbeza5l2+YKPX0pRCdGRFhsO153RR0dAq1VjskO32ZH2vax44v01qDVcVlfvk+63R8fcuSGkFAUKSTWM6AFAsGzgfbI+USoLrgy1AF9ko97dDHii71DAY1jqRJHowa73zTAuemEyZmEoFHi2msb0IpBWLkIvk3a1l+TXuv7SPvyfZK45Xf0TnCuqFOuoonHFTKmjA0IV50DlFAWlYM7L8T/UZhQ0IKw1Bfm2tzylj4mZgxHfjDHO9+3gTU1C9MGRFi1xI41/Zbb/9UmvvrFk1x5XcP3xeQCCAV9URWflzkv56EjCjI2QC1nQLFkC3j/XOGA82OriD3vdeUnPwbKswt84P3DtNUo5fkWnFvM4d3qyyjAdJPdW3q44vd2ULYGTs2BsUUbdwG4W6aTIn7AMyEChQFeLrhgLVHG0saQQxucE8TpvFGRGYIDWQZHcnUNcmKSst8GO9AX95TM5QxMzFOeXsh/ZgioAhhZCu/jLDIij9PgZS0Y8GxFT27Zs0BimcsucCZJJeByM6RYZ5VyEAlY5+Vc4Ssur3EFTGHzcmVFZzy4AJqlk1++HRAtgGA7zpvgkMIVDx7nLJaMbbXnAQ6gkzDhHbOZewpnFYKlyBHH7ILlqccT1o0Il25WRI3cAAsY8KYASKF/0ENQDdjCH5RAkJsdw/wUHDhsiGPh6l0BWgvOFkY561KZnMV6NkCWHIZcWkTEAcx25cS62Pm09Q66BKzgFAiCKju+9rU2n/l8m9EBxaYNiu3bFVfsVGzZLN6UWg2kLKBzEilAsKtkgyyzsgqQCLbpmJ2BsVOOI0cdB/7ecPio5eRpy2IC/+3fV9n7uhDbLoYGzjPgEoeLnWcDR47slsuA5MScPbKzq7HGYa1FOZWP9yIdDbChoRiMHBM/Sjh+EP76r6DSA319MLpWs3ZU0hpG1giDg1BvCOVK8aA4LIHWgIM4gaSbykC7Da0mzM45Jifg7LhLBafPWMbPWubnoNuCioZGGTY1NBNNRywOlEGUgC224BmDZ+lCxgaYlY7DFkgePcPRN2+3bWJbdkbhhwOCKEAsAJdsgZ7IURvqY+ueG2m12kycPMTcxBTz8zOMP2fY9xQUx2EPTKUCpciDE+ZGOCCOIUllDLRb3gT/dzwAiEBUhkojYmB9L72jIwyt3YbqLDD+zCP0Bwlr1+Y703y9w4CzeSYnFtOx7YwNiAG7kgHxn7zAyY9cxZFyx73GJXkKofK1FB/RJZvBhQ4zuI4rf+6DlIIAl7RJ4i7NmTMsTE3SWphhdvwIi1Oz/izfac/TmZ9J6wUfVDu2JE0DCGGkUZFQ0pr6aINyT18K3EO5ElEfXkN9aAuVnlpajxLVBglKJSSoMHHqGIf2P8rQSMLwEGAcqAwYHOBjj52fIBdaHMnYVjPAAZ3FmHh8Tp4YzAzwTXMBCGBgwzphYKPi6InjzE+cZP2m7agopFQqEW3aSpjWQRCgtUJEobTCJV1M3MSktQCCFCdrBeBwgA4rXojGp6+zmMSQJAndTodOp0XcjUEFjI8d5FS2Z7g2pKcOdhaQIk5vRKaWI2NajD1RZ+kQKCbCGGg9PGa/u2Ojen/Qdsp08RMfThAFDqjW4bVXBTx73yJ/99Cfcdudv8rQ8AhBoFEC4gwKRagDb0QYhqnqlEpr0UHo2+nMIAGAxFiM8ZAkcUw37qaQXTx0Cuuwvs9AK1Slig4SThw9yKMPfxWlYe81CiygQBxYBxiHyeDbjqTtbMYEtIA4Y13pFRkLND/1FH8/Neu+b5oW17XY2IEFBDxhF274Gc26Yc2hfQ/xh//hQ9z/+d/j/+x/gsXFRaJyhWpPnUq1RikqEwQhWmuKE6RFUlEs+DhrvESEQOvMNH9tT62W9lUjCCOmJs/zxN99my/8wT388X/+FeZPHeGyywLe8FoFHRDvPmDAJg7XsZiWJWPJmIAmYFd7LG6B1lxM69nT7oGbh+1rXVtBFbA+TiQQ6Dp2bBOu/SnNs49CqzPG/oe/zOPf/jK9QxvYsPlyLrtyNxsv2cHmbTtZM7KOWi0zpJeoFHJhCYLAC2Cx2UpNXGBhYYFTY0c5cewIxw+/wMED3+PMiR/Smp+iFsDaOqiy5pa3BdSq4NoAAhYweep3HG7ekrFkTOC1ggHFMGgBcx/7Lt9540Z7fKDXblYVQVVASgq0AxHoOG57V8CpH1h6gpCdQzAXW6aaJzn7wkkOPfNtDBBWqvTUB+kbGGZgzTr6B0YolatUUkWlEs5lBrbotFu0mvNMT5xh8vwZZqcnaC1MknRiIgWNClxSg4HBFFgL8aKjsll481sULDrwW25SCT5rWxYzb9N+7PGMBZgDWhfzg5EEmD8yy/zjY+5P3tpn/53uUdgKqAgIBTTQxm98bnxnyL6vxGzoUyit6VpFy8Bi4liMHc24RbM7Rmt8jB+N7edwAsbm4zSTeKEBrSEKoFKCDamqo0JPqFMpqgFUNIQidDqOMzG845dCqiHgBEHACi5/7moWHGbGkjFkLOCVLL8VXpoFC8DML/8t33lird2/tm52S9VnASpUoAUJgVnHLW/XnD1hmf6+Yf2wohQITsBYIXaOxCq6lrSG2Hl4/OrqKHbXgJZ8p6u8x4TKf6aU1SJo8dfQ7sLZSceb7gi5cpfAOQciuAw+gXzck8waxifs/owBmAEWXsoPRzvAzGyb3s8+6z7zGw3zGamoskRCGFiUVhCAWCHoWO74cMi9n4RzpyzrhhVR6IEQkeJUCljnLjil5pJifhUyCSLgRfFccbHjOD3t2PmWgJvfoWHCgCh8fwZs2/qhkcxa2lOmncWeMswBMzkTL25AkQVzwOTvP82RGzbK566vmA/rSLChQgILgaQCaUGj1/KeXyvx1T+IOXXMsnZYqOQ7Pa1ACtJVXvsQYOl53+QPRRe6KfyUY9tNAW9/b4CaMmBU/hgQXNtiU3ibwptJw5PH5HO//7Q7AkwCcxf/fkChLjAFVG/7uv3GU3XZvi1MbiYMQBRKCSoARJB5RzpZcmdqwl/fG3PiyYSRXqFeE0qSmyAXosqKh0DncngLnZhsGWMmdlz17hI3vFUhEwY6+aTXBdsCO++IZyzd8wlHxuxDt33dfQOYyBm6AKsasMpcMAVU7v5L90cP3G7XjGjzevIxKlohCE5AZqGnx/DOD4Y8faVm3zdjZs87BnuhWhHvm1KgAN9+OXgHNr/r3QQWFh1TKVh9s+a2O0K2bQXOWegKLgZfNx12zhJPpzpnsmH4bBYrMO3hlx37hfQnPvEJVirp/7l77rnHAEy00M+e5/s3jborKophAkEE8DAKEIhBWo71OxQ7rguII+H0acfMtKMbCw6wgPMSbCHi/G4vtv0dZ6oJekSx5+0lbv6FkOGK9fAuFjx4W7BNm8I7PPx4Bm8O/Mtvud/ZP84p4AwwlbJ3/59flBSROjACrH/TRtZ99hb5tXWb1BvC0QDdqwjqgvQoJAIJHRIAPcCAZqElHD5gOfqcYXrM0p13kBTDorjroCKI+hQjWxVbX6fZuk0oWQuTFjr5JjIRXAtc05LMO8ysJT6bcHrMfu9DD7r/8t2TnAROA+Mp2/xP7E1REekH1gCj23sZuv82+eDWTermcFij+1VugqDKApHkr8UDVaChIFI02zA97ZibhsUZR9x1AERVod4vNHqF/gEoBQ4WLcw6PLj14NB12LbDLTiSfJ2PzxsO/8h++1/8hfvvh6c4C17nU65pgJ+kAQL0A8N5NjT+/OfV26671L2/MqjLwaBGNwRdU0gZJBKkBBKACKDxxlABQoFAipOIARLnAWllNWBy8Kzu5tvaFphFi5lzJFOG1qRpP3ZEvnD71+y3gBlgPIMHZlxaXo53hRXQCwzlRgz86z1s+dAe+cW1o2q3HlAEfQqVZUJFpQIJMwloEA/tQFY4hjnAb2jyM33sPLxt47e2Nl/jzZTlzFm7/7PPuP/x6Wc4Ckzl4JPAbMpkX9a3xYE6MJirv6Kpf+atXHfDFvn5viG1RfcqdF2hqoJUBF0CSuLNQIOoYtcD5OAOH7bJwIGOw3T9WR7bdJgF68f7zIQ99sgx97UPP8hjLcM8MO3BvZh3aXmlfl+glmdDP9AHNNbXqP32Dey9dqPcMtgvu4KakswEXVXFkPDZgJdSAGBzcFye6nnKm6b18MmCdZNT7vnHT7q/+c1HePrUAguQ7/BgOr/rC6/4b4yISJRnQyM3oQ7UgOBX97LlZ7ervVv63d5anc2liopUJBAKEoAKfjwD/Pk9AfJHWN2W7SzMc/zYtDz9V4fs0+mO9BiQgIefz+Hn8rveAXjFDSjmBSoevlAV6AEiDerndrDm+o2s3zmoNg5V3bpqyEAUUAs1EUBs6HQSFpoxUxNNOf3DSTv2v8c49RcHOWfAAh1gEWh6+EKtYry/0gYsNSLIjejJVc2NKQOlXDqXLWoAFGCK2qubqw20cvjFTDl48ur7vcHCiAgo56p4+EIaUHlNIQxgC/hcHp52rs4S8FeVAUtXi/ACBb4uDChmgcKAGEh8TSFXBMqr24DV5woNKK/lz0M2l/Fj+xUo/xd+DYsy448VUQAAAABJRU5ErkJggg==" /></p>
+</blockquote>
+<p> </p>
+<h2 id="quick-guide">Quick Guide</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// Task is running on a background thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task  <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>  
+{  
+    <span class="hljs-comment">// Dispatch an Action that is executed on the main thread.  </span>
+    Dispatcher.Invoke(() =&gt;  
+    {
+	<span class="hljs-comment">// Executed on main thread.</span>
+    });  
+
+    <span class="hljs-comment">// Dispatch an Action that is executed on the main thread and await its completion.  </span>
+    <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt;  
+    {  
+	<span class="hljs-comment">// Executed on main thread.</span>
+    });  
+
+    <span class="hljs-comment">// Dispatch a Func&lt;TResult&gt; that is executed on the main thread and await its result.  </span>
+    <span class="hljs-keyword">var</span> player = <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt;  
+    {  
+	<span class="hljs-comment">// Executed on main thread.</span>
+	<span class="hljs-keyword">return</span>  FindObjectOfType&lt;Player&gt;();
+    }); 
+}
+</div></code></pre>
+<h3 id="features">Features</h3>
+<p>• Dispatch the execution of an Action to the main thread.<br>
+• Dispatch the execution of a <strong>Func<TResult></strong> to the main thread.<br>
+• Dispatch the execution of a <strong>Coroutine</strong> to the main thread.<br>
+• Dispatch the execution of a <strong>Task</strong> to the main thread.<br>
+• Dispatch the execution of a <strong>Task<TResult></strong> to the main thread.<br>
+• <strong>Await</strong> the <strong>execution &amp; result</strong> of a delegate or task on the calling thread.<br>
+• <strong>Await</strong> the <strong>start</strong> or the <strong>competion</strong> of a Coroutine on the calling thread.<br>
+• Asynchronous overloads have <strong>full cancellation support</strong>.<br>
+• Multiple <strong>extension methods</strong> to reduce boilder plate code.<br>
+• Full C# <strong>source code</strong> included.</p>
+<p> </p>
+<h2 id="dispatch-an-action">Dispatch an Action</h2>
+<p>you can dispatch the execution of a System.Action to the main thread. Actions are presumably the most common type that will be dispatched and are by default executed during the next available Update, LateUpdate, FixedUpdate or Tick cycle. Use Dispatcher.Invoke(Action action, ExecutionCycle cycle,...) for more control over the cycle in which the Action will be executed.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">Action action</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">Action action, ExecutionCycle cycle</span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Tasks are executed on separate background threads.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    Dispatcher.Invoke(() =&gt;
+    {
+        <span class="hljs-comment">// Logic here is executed on the main thread.</span>
+    });
+
+    <span class="hljs-keyword">return</span> Task.CompletedTask;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">WorkerTaskCycle</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">var</span> context = ExecutionCycle.FixedUpdate;
+
+    Dispatcher.Invoke(() =&gt;
+    {
+        <span class="hljs-comment">// Logic here is executed on the main thread during the next FixedUpdate.</span>
+    }, context);
+
+    <span class="hljs-keyword">return</span> Task.CompletedTask;
+}
+</div></code></pre>
+<p> </p>
+<h2 id="awaiting-a-dispatched-action">Awaiting a dispatched Action</h2>
+<p>Await the completion of a dispatched Action by calling Dispatcher.InvokeAsync(Action action) which returns a Task that represents the execution of the dispatched action. The overload Dispatcher.InvokeAsync(Action action, ExecutionCycle cycle) can be used to determine the execution cycle to which the action should be dispatched to.</p>
+<blockquote>
+<p>⚠️ Exceptions thrown in a dispatched action are returned to the calling thread! If those exceptions are not handled within the passed action itself or on the calling thread, this will result in the thread being cancelled without notice.</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Action action</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Action action, ExecutionCycle cycle</span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Tasks are executed on separate background threads.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-comment">// Create a try-catch block to handle potential exceptions.</span>
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Dispatch and await the execution of an anonymous delegate.</span>
+        <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt;
+        {
+            <span class="hljs-comment">// Logic here is executed on the main thread during the next Update or Tick call.</span>
+        });
+        <span class="hljs-comment">// Logic here is executed after the anonymous delegate has been executed on the main thread.</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle potential exceptions.</span>
+    }
+
+</div></code></pre>
+<p> </p>
+<h2 id="cancellation-of-a-dispatched-action">Cancellation of a dispatched Action</h2>
+<p>Every Dispatcher.InvokeAsync(Action action, ...) method returns a Task and has an optional overload that accepts a CancellationToken . Since actions return a non-generic task, an additional argument: throwOnCancellation can be passed, that determines whether an exception is thrown in the event of premature cancellation or not. By default, the value of this argument is true and an OperationCanceledException is thrown if the task is cancelled prematurely. If the value is set to false, no exception is thrown and the Task will return without notice.</p>
+<p>Note that the throwOnCancellation argument will only prevent an OperationCanceledException from being thrown when the Task is canceled manually. Other exceptions that occur during the execution of the passed delegate are returned to the calling thread nonetheless.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Action action, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Action action, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Tasks are executed on separate background threads.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params">CancellationToken ct</span>)</span>
+{
+    <span class="hljs-comment">// Prepare a try catch block to catch the exception if the operation is cancelled.</span>
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Dispatch and await the execution of an anonymous delegate.</span>
+        <span class="hljs-comment">// This will throw an exception if the operation is cancelled.</span>
+        <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt;
+        {
+            <span class="hljs-comment">// Logic here is executed on the main thread during the next Update or Tick call.</span>
+        }, ct);
+    }
+    <span class="hljs-keyword">catch</span> (OperationCanceledException oce)
+    {
+        <span class="hljs-comment">// Handle task cancellation.</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle other exceptions.</span>
+    }
+
+
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Dispatch and await the execution of an anonymous delegate.</span>
+        <span class="hljs-comment">// If cancelled, this will return without an exception.</span>
+        <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt;
+        {
+            <span class="hljs-comment">// ...</span>
+        }, ct, throwOnCancellation: <span class="hljs-literal">false</span>);
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle exceptions.</span>
+    }
+}
+</div></code></pre>
+<p> </p>
+<h2 id="extension-methods-for-actions">Extension Methods for Actions</h2>
+<p>Multiple extension methods can be directly called on an Action to reduce boilerplate code. This naturally includes events.
+Every overload of Dispatcher.Invoke(Action action,...) or Dispatcher.InvokeAsync(Action action,...) has an affiliated extension method. Extension methods for actions will also accept up to four generic parameters. This is done by boxing the generic action within the extension method. Extension methods are located at Baracuda.Threading.DispatchExtensions.</p>
+<p>The amount of reduced boilerplate code is modes if you just want to dispatch an action without anything else. It will however become noticeable if you pass additional parameter to your action or if you need to perform a null-check first. Since we are calling the extension method on the action itself we can use the Null-conditional operator ?. to check if the action is null instead of creating a dedicated if statement.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">ActionExtensionMethodExampleA</span>(<span class="hljs-params">Action action</span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Ordinary approach requires additional boilerplate code.</span>
+        <span class="hljs-keyword">if</span> (action != <span class="hljs-literal">null</span>)
+        {
+            Dispatcher.Invoke(action);
+        }
+
+        <span class="hljs-comment">// Alternative extension method called directly on the Action.</span>
+        action?.Dispatch();
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle exceptions.</span>
+    }
+
+    <span class="hljs-keyword">return</span> Task.CompletedTask;
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">ActionExtensionMethodExampleB</span>(<span class="hljs-params">Action&lt;<span class="hljs-keyword">int</span>&gt; action</span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Ordinary approach requires additional boilerplate code.</span>
+        <span class="hljs-comment">// Note that we are using an alternative approach to check if the action is null.</span>
+        Dispatcher.Invoke(() =&gt;
+        {
+            action?.Invoke(<span class="hljs-number">1337</span>);
+        });
+
+        <span class="hljs-comment">// Alternative extension method called directly on the Action.</span>
+        action?.Dispatch(<span class="hljs-number">1337</span>);
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle exceptions.</span>
+    }
+    <span class="hljs-keyword">return</span> Task.CompletedTask;
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">ActionExtensionMethodExampleC</span>(<span class="hljs-params">Action action, CancellationToken ct</span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Ordinary approach requires additional boilerplate code.</span>
+        <span class="hljs-keyword">if</span> (action != <span class="hljs-literal">null</span>)
+        {
+            <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(action, ct);
+        }
+
+        <span class="hljs-comment">// Alternative extension method called directly on the Action.</span>
+        <span class="hljs-comment">// Extension Method will return a completed task if the action is null.</span>
+        <span class="hljs-keyword">await</span> action.DispatchAsync(ct);
+    }
+    <span class="hljs-keyword">catch</span> (OperationCanceledException oce)
+    {
+        <span class="hljs-comment">// Handle exceptions.</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle exceptions.</span>
+    }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispatch</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Action action</span>)</span>;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T&gt;(<span class="hljs-keyword">this</span> Action&lt;T&gt; action);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T, S&gt;(<span class="hljs-keyword">this</span> Action&lt;T, S&gt; action);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T, S, U&gt;(<span class="hljs-keyword">this</span> Action&lt;T, S, U&gt; action);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T, S, U, V&gt;(<span class="hljs-keyword">this</span> Action&lt;T, S, U, V&gt; action);
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispatch</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Action action, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T&gt;(<span class="hljs-keyword">this</span> Action&lt;T&gt; action, ExecutionCycle cycle);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T, S&gt;(<span class="hljs-keyword">this</span> Action&lt;T, S&gt; action, ExecutionCycle cycle);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T, S, U&gt;(<span class="hljs-keyword">this</span> Action&lt;T, S, U&gt; action, ExecutionCycle cycle);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> Dispatch&lt;T, S, U, V&gt;(<span class="hljs-keyword">this</span> Action&lt;T, S, U, V&gt; action, ExecutionCycle cycle);
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Action action</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Action action, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Action action, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Action action, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+</div></code></pre>
+<p> </p>
+<h1 id="functresultresult">Func&lt;TResultResult&gt;</h1>
+<p> </p>
+<h2 id="dispatch-and-await-a-func">Dispatch and await a Func</h2>
+<p>Dispatch a Func&lt;TResultResult&gt; to the main thread and await its result on the calling thread using Dispatcher.InvokeAsync(Func&lt;TResultResult&gt; func). This method returns a Task&lt;TResultResult&gt; object which yields the result of the delegate. Pass in an optional ExecutionCycle argument when calling this method to determine when the delegate will be executed.</p>
+<blockquote>
+<p>⚠️ Exceptions thrown in a dispatched delegate are returned to the calling thread when awaited! If those exceptions are not handled within the passed delegate itself or on the calling thread, this will result in the thread being cancelled without notice.</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;TResult&gt; func</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;TResult&gt; func, ExecutionCycle cycle</span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Find a CharacterController on the main thread and return it to the calling thread.</span>
+        <span class="hljs-keyword">var</span> player = <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt;
+        {
+            <span class="hljs-keyword">return</span> FindObjectOfType&lt;CharacterController&gt;();
+        });
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle potential exceptions.</span>
+    }
+}
+</div></code></pre>
+<p> </p>
+<h2 id="cancellation-of-a-dispatched-func">Cancellation of a dispatched Func</h2>
+<p>Every InvokeAsync(Func<TResult> func, ...) method returns a Task<TResult> and has an optional overload that accepts a CancellationToken. If the task is cancelled prematurely, an OperationCanceledException is thrown. Always use a try-catch block if you are passing a CancellationToken!</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;TResult&gt; func, CancellationToken ct</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;TResult&gt; func, ExecutionCycle cycle, CancellationToken ct</span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Tasks are not executed on the main thread but on separate background threads.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params">CancellationToken ct</span>)</span>
+{
+    <span class="hljs-comment">// Prepare a try catch block to catch the exception if the operation is cancelled.</span>
+
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Dispatch and await the result of the passed delegate.</span>
+        <span class="hljs-comment">// This will throw an exception if the operation is cancelled.</span>
+        Canvas result = <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt;
+        {
+            <span class="hljs-comment">// Find a Canvas on the main thread and return it to the calling thread.</span>
+            <span class="hljs-keyword">return</span> Object.FindObjectOfType&lt;Canvas&gt;();
+        }, ct);
+
+        <span class="hljs-comment">// Executed logic that requires the Canvas...</span>
+    }
+    <span class="hljs-keyword">catch</span> (OperationCanceledException oce)
+    {
+        <span class="hljs-comment">// Handle task cancellation.</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle other exceptions.</span>
+    }
+}
+</div></code></pre>
+<p> </p>
+<h2 id="extension-methods-for-func">Extension Methods for Func</h2>
+<p>You can call multiple extension methods directly on a Func&lt;TResult&gt; to reduce boilerplate code.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task FuncExtensionMethodExampleA&lt;T&gt;(Func&lt;T&gt; func, CancellationToken ct)
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// We must manually check if func is null because we cannot use the Null-conditional operator ?</span>
+        <span class="hljs-comment">// if we are dealing with tasks that yield a return value.</span>
+        <span class="hljs-keyword">if</span> (func != <span class="hljs-literal">null</span>)
+        {
+            <span class="hljs-comment">// Ordinary approach requires some additional boilerplate code.</span>
+            <span class="hljs-keyword">var</span> result1 = <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(func, ct);
+
+            <span class="hljs-comment">// Alternative extension method called directly on the delegate.</span>
+            <span class="hljs-keyword">var</span> result2 = <span class="hljs-keyword">await</span> func.DispatchAsync(ct);
+        }
+    }
+    <span class="hljs-keyword">catch</span> (OperationCanceledException oce)
+    {
+        <span class="hljs-comment">// Handle task cancellation.</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle exceptions.</span>
+    }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;TResult&gt; func</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;TResult&gt; func, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;TResult&gt; func, CancellationToken ct</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; <span class="hljs-title">DispatchAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;TResult&gt; func, ExecutionCycle cycle, CancellationToken ct</span>)</span>;
+</div></code></pre>
+<p> </p>
+<h1 id="coroutines">Coroutines</h1>
+<p>You can dispatch an IEnumerator to be executed as a Coroutine on the main thread. You can determine the target MonoBehaviour on which the Coroutine will run. If no target MonoBehaviour is passed, the coroutine will run on the Dispatcher Scene Component.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">IEnumerator enumerator</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">IEnumerator enumerator, MonoBehaviour target</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target</span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    Dispatcher.Invoke(ExampleCoroutine());
+
+    <span class="hljs-keyword">return</span> Task.CompletedTask;
+}
+
+<span class="hljs-comment">// Coroutines can only run on the main thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> IEnumerator <span class="hljs-title">ExampleCoroutine</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    <span class="hljs-comment">// ...</span>
+}
+</div></code></pre>
+<p> </p>
+<h2 id="awaiting-a-dispatched-coroutine">Awaiting a dispatched Coroutine</h2>
+<p>There are two options when awaiting a dispatched Coroutine. You can either Await the start of a Coroutine using InvokeAsyncAwaitStart which returns a Task<Coroutine> that when awaited will yield the representative Coroutine after it was successfully started on the main thread. Or Await the completion of a Coroutine using InvokeAsyncAwaitCompletion which yields no result but can be awaited indefinitely until the Coroutine has completed on the main thread.</p>
+<blockquote>
+<p>⚠️ Version 2.0.0 enables you to determine whether the awaited Task returns when the dispatched Coroutine was started, yielding the Coroutine object as a return value or when it has completed, yielding no return value; by using InvokeAsyncAwaitStart(IEnumerator enumerator...) or InvokeAsyncAwaitCompletion(IEnumerator enumerator...) marking InvokeAsync(IEnumerator enumerator...) as Obsolete!</p>
+</blockquote>
+<blockquote>
+<p>⚠️ Exceptions thrown during both the dispatchment of a Coroutine or the execution of a Coroutine are returned to the calling thread. If those exceptions are not handled on the calling thread, the thread will be cancelled without notice.</p>
+</blockquote>
+<p> </p>
+<h2 id="await-the-start-of-a-coroutine">Await the start of a Coroutine</h2>
+<p>The method Dispatcher.InvokeAsyncAwaitStart(IEnumerator enumerator,...) returns a Task that when awaited yields the representative Coroutine object that was just started on the main thread. You can cache this object and use it to stop the Coroutine using Dispatcher.CancelCoroutine(Coroutine coroutine,...), a method which also has asynchronous overloads and will stop a Coroutine running on the dispatcher itself. Note that this method will only stop Coroutines that are running on the dispatcher itself, aka Coroutines that were dispatched without explicitly passing a target MonoBehaviour for the Coroutine .</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator, MonoBehaviour target</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator, CancellationToken ct</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator, MonoBehaviour target, CancellationToken ct</span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">InvokeAsyncAwaitStart</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct</span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Task is running on a background thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Get a random value of milliseconds to wait.</span>
+        <span class="hljs-keyword">var</span> random = <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(() =&gt; UnityEngine.Random.Range(<span class="hljs-number">0</span>, <span class="hljs-number">2000</span>));
+
+        <span class="hljs-comment">// Start a coroutine running on the main thread.</span>
+        Coroutine coroutine = <span class="hljs-keyword">await</span> Dispatcher.InvokeAsyncAwaitStart(ExampleCoroutine());
+
+        <span class="hljs-comment">// Simulate asynchronous work.</span>
+        <span class="hljs-keyword">await</span> Task.Delay(random);
+
+        <span class="hljs-comment">// Cancel the coroutine after asynchronous work has completed.</span>
+        <span class="hljs-keyword">await</span> Dispatcher.CancelCoroutineAsync(coroutine);
+
+        <span class="hljs-comment">// ...</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle potential exceptions.</span>
+        Debug.LogException(exception);
+    }
+}
+
+<span class="hljs-comment">// Coroutine has a ~50% chance of being stopped before it completes.</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> IEnumerator <span class="hljs-title">ExampleCoroutine</span>(<span class="hljs-params"></span>)</span>
+{
+    Debug.Log(<span class="hljs-string">"Start of Coroutine"</span>);
+    <span class="hljs-function"><span class="hljs-keyword">yield</span> return new <span class="hljs-title">WaitForSeconds</span>(<span class="hljs-params"><span class="hljs-number">1f</span></span>)</span>;
+    Debug.Log(<span class="hljs-string">"End of Coroutine"</span>);
+}
+</div></code></pre>
+<p> </p>
+<h2 id="await-the-completion-of-a-coroutine">Await the completion of a Coroutine</h2>
+<p>You can not only await the start of a Coroutine but also its completion. The method Dispatcher.InvokeAsyncAwaitCompletion(IEnumerator enumerator,...) returns a Task that can be awaited on the calling thread and returns when the dispatched Coroutine has completed on the main thread. To avoid that the calling thread is awaiting the completion indefinitely, it is very important to receive notification if the Coroutine cannot complete, either because of an exception or because the coroutine was stopped. For this reason every dispatched coroutine must be wrapped in another exception sensitive coroutine, that will catch and return exceptions to the calling thread. Additionally, because the life of a Coroutine is bound to a target MonoBehaviour and a stopped Coroutine will just cease to exist without telling anybody, the target MonoBehaviour must be monitored to receive notice if it is disabled. Those essential operations can become very expensive should they occur in large quantities.</p>
+<blockquote>
+<p>⚠️ For reasons stated above, awaiting the completion of a dispatched coroutine can become an expensive operation should it occur in large quantities. Please be aware of this and avoid unnecessary usages of this feature if possible, especially in performance critical environments.</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, MonoBehaviour target, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, MonoBehaviour target, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsyncAwaitCompletion</span>(<span class="hljs-params">IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Create a cancellation token source.</span>
+        <span class="hljs-keyword">var</span> cts = <span class="hljs-keyword">new</span> CancellationTokenSource();
+
+        <span class="hljs-comment">// Cancel the operation after one second.</span>
+        cts.CancelAfter(<span class="hljs-number">1000</span>);
+
+        <span class="hljs-comment">// Start a coroutine and await its completion.</span>
+        <span class="hljs-keyword">await</span> Dispatcher.InvokeAsyncAwaitCompletion(ExampleCoroutine(), cts.Token);
+
+        <span class="hljs-comment">// ...</span>
+    }
+    <span class="hljs-keyword">catch</span> (OperationCanceledException operationCanceledException)
+    {
+        <span class="hljs-comment">// This exception will occur after one second if the coroutine hasn't completed yet, which has a chance of ~50%.</span>
+        Debug.Log(<span class="hljs-string">"Operation Cancelled!"</span>);
+    }
+    <span class="hljs-keyword">catch</span> (BehaviourDisabledException behaviourDisabledException)
+    {
+        <span class="hljs-comment">// This exception will occur if the coroutines target behaviour is disabled while the coroutine is still running.</span>
+        Debug.Log(<span class="hljs-string">"Behaviour disabled!"</span>);
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle other potential exceptions that occur during the execution of the coroutine.</span>
+        Debug.LogError(exception);
+    }
+}
+
+<span class="hljs-comment">// Coroutines are only allowed to be executed on the main thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> IEnumerator <span class="hljs-title">ExampleCoroutine</span>(<span class="hljs-params"></span>)</span>
+{
+    Debug.Log(<span class="hljs-string">"Start of Coroutine"</span>);
+    <span class="hljs-function"><span class="hljs-keyword">yield</span> return new <span class="hljs-title">WaitForSeconds</span>(<span class="hljs-params">UnityEngine.Random.Range(<span class="hljs-number">0f</span>, <span class="hljs-number">2f</span></span>))</span>;
+    Debug.Log(<span class="hljs-string">"End of Coroutine"</span>);
+}
+</div></code></pre>
+<p> </p>
+<h2 id="extension-methods-for-coroutines">Extension Methods for Coroutines</h2>
+<p>You can call multiple extension methods directly on an IEnumerator to reduce boilerplate code. Every overload of Dispatcher.Invoke(IEnumerator enumerator,...) or Dispatcher.InvokeAsync(IEnumerator enumerator,...) has an affiliated extension method.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">CoroutineExtensionMethodExampleA</span>(<span class="hljs-params">MonoBehaviour target</span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Ordinary approach to dispatch a coroutine.</span>
+        Dispatcher.Invoke(ExampleCoroutine(<span class="hljs-number">5.0f</span>), target);
+
+        <span class="hljs-comment">// Alternative extension method.</span>
+        ExampleCoroutine(<span class="hljs-number">5.0f</span>).Dispatch(target);
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Handle potential exceptions.</span>
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> IEnumerator <span class="hljs-title">ExampleCoroutine</span>(<span class="hljs-params"><span class="hljs-keyword">float</span> delay</span>)</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">yield</span> return new <span class="hljs-title">WaitForSeconds</span>(<span class="hljs-params">delay</span>)</span>;
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispatch</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispatch</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, MonoBehaviour target</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispatch</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispatch</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target</span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, MonoBehaviour target</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, CancellationToken ct</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, MonoBehaviour target, CancellationToken ct</span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;Coroutine&gt; <span class="hljs-title">DispatchAsyncAwaitStart</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct</span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, MonoBehaviour target, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, MonoBehaviour target, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">DispatchAsyncAwaitCompletion</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> IEnumerator enumerator, ExecutionCycle cycle, MonoBehaviour target, CancellationToken ct, <span class="hljs-keyword">bool</span> throwExceptions = <span class="hljs-literal">true</span></span>)</span>;
+</div></code></pre>
+<h1 id="task">Task</h1>
+<p>Dispatch work encapsulated in a Func&lt;Task&gt; which is then preformed on the main thread. When passing in an optional CancellationToken ct, it is forwarded to the Task wrapped in function which must accept it as an argument.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">Func&lt;Task&gt; function</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">Func&lt;Task&gt; function, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">Func&lt;CancellationToken, Task&gt; function, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params">Func&lt;CancellationToken, Task&gt; function, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Provides cancellation token.</span>
+<span class="hljs-keyword">private</span> CancellationTokenSource cts = <span class="hljs-keyword">new</span> CancellationTokenSource();
+
+<span class="hljs-comment">// Running on a background thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-comment">// The cancellation token from cts is passed along to MainThreadTask</span>
+    <span class="hljs-comment">// when it is run on the main thread.</span>
+    Dispatcher.Invoke(MainThreadTask, cts.Token);
+
+    <span class="hljs-comment">// using cts.Cancel() will cancel the work done by MainThreadTask.</span>
+}
+
+<span class="hljs-comment">// Running on the main thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">MainThreadTask</span>(<span class="hljs-params">CancellationToken ct</span>)</span>
+{
+    <span class="hljs-comment">// Simulating async work on the main thread and returning a result.</span>
+    <span class="hljs-keyword">await</span> Task.Delay(<span class="hljs-number">300</span>, ct);
+}
+</div></code></pre>
+<p> </p>
+<h2 id="awaiting-a-dispatched-task">Awaiting a dispatched Task</h2>
+<p>Dispatch work encapsulated in a Func&lt;Task&gt; which is then preformed on the main thread. Await the completion of the passed operation by awaiting the Task handle returned by the method call. When passing in an optional CancellationToken ct, it is forwarded to the Task wrapped in function which must accept it as an argument.</p>
+<blockquote>
+<p>⚠️  Exceptions thrown in a dispatched task are returned to the calling thread if the completion or the result of the dispatched work is awaited! If those exceptions are not handled within the passed task itself this will result in the thread being cancelled without notice.</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;Task&gt; function</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;Task&gt; function, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;CancellationToken, Task&gt; function, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params">Func&lt;CancellationToken, Task&gt; function, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Running on a background thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params">CancellationToken ct</span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Perform and await work on the main thread.</span>
+        <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(MainThreadTask, cts.Token);
+
+        <span class="hljs-comment">// ...</span>
+    }
+    <span class="hljs-keyword">catch</span> (OperationCanceledException canceledException)
+    {
+     <span class="hljs-comment">// Task was canceled.</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Another exception occurred.</span>
+    }
+}
+
+<span class="hljs-comment">// Running on the main thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">MainThreadTask</span>(<span class="hljs-params">CancellationToken ct</span>)</span>
+{
+    <span class="hljs-comment">// Simulating async work on the main thread.</span>
+    <span class="hljs-keyword">await</span> Task.Delay(<span class="hljs-number">300</span>, ct);
+}
+</div></code></pre>
+<p> </p>
+<h2 id="awaiting-a-dispatched-task-tresult">Awaiting a dispatched Task TResult</h2>
+<p>Dispatch work encapsulated in a Func&lt;Task&lt;TResult&gt;&gt; which is then preformed on the main thread. Await the result of the passed operation by awaiting the Task&lt;TResult&gt; handle returned by the method call. When passing in an optional CancellationToken ct, it is forwarded to the Task wrapped in function which must accept it as an argument.</p>
+<blockquote>
+<p>⚠️  Exceptions thrown in a dispatched task are returned to the calling thread if the completion or the result of the dispatched work is awaited! If those exceptions are not handled within the passed task itself this will result in the thread being cancelled without notice.</p>
+</blockquote>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(Func&lt;Task&lt;TResult&gt;&gt; function);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(Func&lt;Task&lt;TResult&gt;&gt; function, ExecutionCycle cycle);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(Func&lt;CancellationToken, Task&lt;TResult&gt;&gt; function, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span>);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(Func&lt;CancellationToken, Task&lt;TResult&gt;&gt; function, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span>);
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// Running on a background thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params">CancellationToken ct</span>)</span>
+{
+    <span class="hljs-keyword">try</span>
+    {
+        <span class="hljs-comment">// Perform and await work on the main thread.</span>
+        <span class="hljs-keyword">int</span> result = <span class="hljs-keyword">await</span> Dispatcher.InvokeAsync(MainThreadTask, cts.Token);
+
+        <span class="hljs-comment">// Do something with result.</span>
+    }
+    <span class="hljs-keyword">catch</span> (OperationCanceledException canceledException)
+    {
+        <span class="hljs-comment">// Task was canceled.</span>
+    }
+    <span class="hljs-keyword">catch</span> (Exception exception)
+    {
+        <span class="hljs-comment">// Another exception occurred.</span>
+    }
+}
+
+<span class="hljs-comment">// Running on the main thread.</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">MainThreadTask</span>(<span class="hljs-params">CancellationToken ct</span>)</span>
+{
+    <span class="hljs-comment">// Simulating async work on the main thread and return a result.</span>
+    <span class="hljs-keyword">await</span> Task.Delay(<span class="hljs-number">300</span>, ct);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1337</span>;
+}
+</div></code></pre>
+<p> </p>
+<h2 id="extension-methods-for-task-and-task-tresult">Extension Methods for Task and Task TResult</h2>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;Task&gt; function</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;Task&gt; function, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;CancellationToken, Task&gt; function, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Invoke</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;CancellationToken, Task&gt; function, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;Task&gt; function</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;Task&gt; function, ExecutionCycle cycle</span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;CancellationToken, Task&gt; function, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task <span class="hljs-title">InvokeAsync</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Func&lt;CancellationToken, Task&gt; function, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span></span>)</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(<span class="hljs-keyword">this</span> Func&lt;Task&lt;TResult&gt;&gt; function);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(<span class="hljs-keyword">this</span> Func&lt;Task&lt;TResult&gt;&gt; function, ExecutionCycle cycle);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(<span class="hljs-keyword">this</span> Func&lt;CancellationToken, Task&lt;TResult&gt;&gt; function, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span>);
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Task&lt;TResult&gt; InvokeAsync&lt;TResult&gt;(<span class="hljs-keyword">this</span> Func&lt;CancellationToken, Task&lt;TResult&gt;&gt; function, ExecutionCycle cycle, CancellationToken ct, <span class="hljs-keyword">bool</span> throwOnCancellation = <span class="hljs-literal">true</span>);
+</div></code></pre>
+<p> </p>
+<h2 id="execution-cycle">Execution Cycle</h2>
+<p>You can determine the exact execution cycle in which a passed delegate or coroutine is invoked on the main thread by passing an optional ExecutionCycle argument when dispatching it.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> ExecutionCycle
+{
+    <span class="hljs-comment">// Executed at the beginning of the next Update call.</span>
+    Update = <span class="hljs-number">1</span>,
+    <span class="hljs-comment">// Executed at the beginning of the next LateUpdate call.</span>
+    LateUpdate = <span class="hljs-number">2</span>,
+    <span class="hljs-comment">// Executed at the beginning of the next FixedUpdate call.</span>
+    FixedUpdate = <span class="hljs-number">3</span>,
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> UNITY_EDITOR</span>
+    <span class="hljs-comment">// Executed at the beginning of the next editor update call.</span>
+    EditorUpdate = <span class="hljs-number">5</span>,
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+}
+</div></code></pre>
+<p> </p>
+<h2 id="miscellaneous">Miscellaneous</h2>
+<p>You can use the Dispatcher to validate if a method is currently running on the main thread or not by calling Dispatcher.IsMainThread(). This method will return true if it is called from the main thread.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// It is unknown if the task is executed on the main thread or not.</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">WorkerTask</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-keyword">if</span>(Dispatcher.IsMainThread() == <span class="hljs-literal">true</span>)
+    {
+        <span class="hljs-comment">// Work() can be called directly because the current execution is already happening on the main thread.</span>
+        Work();
+    }
+    <span class="hljs-keyword">else</span>
+    {
+        <span class="hljs-comment">// Work() must first be dispatched to the main thread and will be called during the next available</span>
+        <span class="hljs-comment">// Update() or Tick() cycle.</span>
+        Dispatcher.Invoke(Work);
+    }
+
+    <span class="hljs-keyword">return</span> Task.CompletedTask;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Work</span>(<span class="hljs-params"></span>)</span>
+{
+    <span class="hljs-comment">// Logic here is only allowed to be executed on the main thread!</span>
+}
+
+</div></code></pre>
+<p> </p>
+<h2 id="support-me">Support Me</h2>
+<p>I spend a lot of time working on this and other free assets to make sure as many people as possible can use my tools regardless of their financial status. Any kind of support I get helps me keep doing this, so consider leaving a star ⭐ making a donation or follow me on my socials to support me ❤️</p>
+<ul>
+<li><a href="https://www.paypal.com/paypalme/johnbaracuda">Donation (PayPal.me)</a></li>
+<li><a href="https://linktr.ee/JohnBaracuda">Linktree</a></li>
+<li><a href="https://twitter.com/JohnBaracuda">Twitter</a></li>
+<li><a href="https://johnbaracuda.itch.io/">Itch</a></li>
+</ul>
+
+</body>
+</html>
